@@ -10,7 +10,8 @@ namespace TheifAndPolice
         public int PositionX { get; set; }
         public int PositionY { get; set; }
         public int Direction { get; set; }
-        public virtual List<Item> Inventory { get; set; }
+
+        public virtual List<Item> Inventory { get; } = new List<Item>();
 
         public Person()
         {
@@ -18,7 +19,7 @@ namespace TheifAndPolice
             Direction = direction;
 
         }
-    
+
         public void Move()
         {
             switch (Direction)
@@ -65,19 +66,21 @@ namespace TheifAndPolice
             {
                 Thief thief = new Thief
                 {
-                    PositionX = rnd.Next(0, width), //rand initial position
-                    PositionY = rnd.Next(0, height)
+                    PositionX = rnd.Next(0 + 1, width - 1), //rand initial position
+                    PositionY = rnd.Next(0 + 1, height - 1)
+
                 };
                 Citizen citizen = new Citizen
                 {
-                    
-                    PositionX = rnd.Next(0, width),
-                    PositionY = rnd.Next(0, height)
+
+                    PositionX = rnd.Next(0 + 1, width - 1),
+                    PositionY = rnd.Next(0 + 1, height - 1)
+
                 };
                 Police police = new Police
                 {
-                    PositionX = rnd.Next(0, width),
-                    PositionY = rnd.Next(0, height)
+                    PositionX = rnd.Next(0 + 1, width - 1),
+                    PositionY = rnd.Next(0 + 1, height - 1)
                 };
 
                 people.Add(thief);
@@ -85,22 +88,23 @@ namespace TheifAndPolice
                 people.Add(police);
 
             }
+
+
+
+
             return people;
 
 
         }
- 
+
     }
     class Thief : Person
     {
-        
+
     }
     class Citizen : Person
     {
-        public Citizen()
-        {
-            
-        }
+
     }
     class Police : Person
     {
