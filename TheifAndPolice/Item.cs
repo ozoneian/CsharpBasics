@@ -4,12 +4,13 @@ using System.Text;
 
 namespace TheifAndPolice
 {
-    public class Item
+    public enum Item
     {
-        public string Name { get; set; }
-        public Item(string name)
-        {
-            Name = name;
-        }
+        Money,
+        Watch,
+        Phone,
+        Keys
     }
+
 }
+

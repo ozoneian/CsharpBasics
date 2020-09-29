@@ -9,7 +9,7 @@ namespace TheifAndPolice
         static void Main(string[] args)
         {
             int height = 20;
-            int width = 20;
+            int width = 40;
             List<Person> city = Person.CreatePeople(height, width);
 
             while (true)
@@ -25,32 +25,32 @@ namespace TheifAndPolice
         {
             char[,] array2d = new char[height, width];
 
-            for (int i = 0; i < array2d.GetLength(0); i++)
+            for (int i = 0; i < array2d.GetLength(0); i++) //i=y
             {
-                for (int j = 0; j < array2d.GetLength(1); j++)
+                for (int j = 0; j < array2d.GetLength(1); j++) //j=x
                 {
                     foreach (var p in people)
                     {
-
+                       
                         if (p is Thief)
                         {
                             if (p.PositionX == j && p.PositionY == i)
                             {
-                                array2d[i, j] = 'T';
+                                array2d[i, j] = p.Symbol;
                             }
                         }
                         if (p is Citizen)
                         {
                             if (p.PositionX == j && p.PositionY == i)
                             {
-                                array2d[i, j] = 'C';
+                                array2d[i, j] = p.Symbol;
                             }
                         }
                         if (p is Police)
                         {
                             if (p.PositionX == j && p.PositionY == i)
                             {
-                                array2d[i, j] = 'P';
+                                array2d[i, j] = p.Symbol;
                             }
                         }
                     }
@@ -59,6 +59,7 @@ namespace TheifAndPolice
                         array2d[i, j] = '*';
                         Console.Write(array2d[i, j]);
                     }
+                   
                     else
                     {
 
@@ -71,11 +72,11 @@ namespace TheifAndPolice
             }
             for (int i = 0; i < people.Count; i++)
             {
-                Console.WriteLine($" {people[i].GetType().Name} direction: {people[i].Direction} inventory: {people[i].Inventory} posX: {people[i].PositionX} posY: {people[i].PositionY}");
+                //Console.WriteLine($" {people[i].GetType().Name} direction: {people[i].Direction} inventory: {people[i].Inventory.Count} posX: {people[i].PositionX} posY: {people[i].PositionY}");
             }
             foreach (var p in people)
             {
-                p.Move();
+                p.Move(height,width);
             }
         }
 
