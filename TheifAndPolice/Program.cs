@@ -13,7 +13,7 @@ namespace TheifAndPolice
             {
                 int height = 20;
                 int width = 40;
-                DrawCitySize(height, width, CreatePeople(height, width));
+                DrawCitySize(height, width, Person.CreatePeople(height,width));
                
                 Console.ReadKey(true);
             }
@@ -40,41 +40,9 @@ namespace TheifAndPolice
             }
             for (int i = 0; i < people.Count; i++)
             {
-                Console.WriteLine($" {people[i]} direction: {people[i].Direction} inventory: {people[i].Inventory} posX: {people[i].PositionX} posY: {people[i].PositionY}" );
+                Console.WriteLine($" {people[i].GetType().Name} direction: {people[i].Direction} inventory: {people[i].Inventory} posX: {people[i].PositionX} posY: {people[i].PositionY}");
             }
         }
-        static List<Person> CreatePeople(int height, int width)
-        {
-            int numberOfPeople = 5;
-            Random rnd = new Random();
-            List<Person> people = new List<Person>();
-
-            for (int i = 0; i < numberOfPeople; i++)
-            {
-                Thief thief = new Thief
-                {
-                    PositionX = rnd.Next(0, width),
-                    PositionY = rnd.Next(0, height)
-                };
-                Citizen citizen = new Citizen
-                {
-                    PositionX = rnd.Next(0, width),
-                    PositionY = rnd.Next(0, height)
-                };
-                Police police = new Police
-                {
-                    PositionX = rnd.Next(0, width),
-                    PositionY = rnd.Next(0, height)
-                };
-
-                people.Add(thief);
-                people.Add(citizen);
-                people.Add(police);
-
-            }
-            return people;
-
-
-        }
+        
     }
 }
