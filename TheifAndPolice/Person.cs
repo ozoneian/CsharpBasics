@@ -13,6 +13,8 @@ namespace TheifAndPolice
         public int Direction { get; set; }
         public virtual char Symbol { get; set; }
         public List<Item> Inventory { get; set; }
+        public bool InPrison { get; set; }
+
 
         public Person()
         {
@@ -21,7 +23,7 @@ namespace TheifAndPolice
 
         }
 
-        public void Move(int height, int width)
+        public void Move(int height, int width) //rand direction int(1-8) determines the objects direction and movement forever.
         {
             switch (Direction)
             {
@@ -107,7 +109,7 @@ namespace TheifAndPolice
         }
         public static List<Person> CreatePeople(int height, int width)
         {
-            int numberOfPeople = 10; //just a random number added for simplification conmtrols the amount of citizen,police,thieves where the amount of each type is equal.
+            int numberOfPeople = 2; //just a random number added for simplification conmtrols the amount of citizen,police,thieves where the amount of each type is equal.
             Random rnd = new Random();
             List<Person> people = new List<Person>();
 
@@ -117,7 +119,8 @@ namespace TheifAndPolice
                 {
                     PositionX = rnd.Next(0 + 1, width - 1), //rand initial position
                     PositionY = rnd.Next(0 + 1, height - 1),
-                    Inventory = new List<Item>()
+                    Inventory = new List<Item>(),
+                    InPrison = false
 
                 };
                 people.Add(thief);
@@ -128,6 +131,7 @@ namespace TheifAndPolice
                     PositionX = rnd.Next(0 + 1, width - 1),
                     PositionY = rnd.Next(0 + 1, height - 1),
                     Inventory = new List<Item>()
+                    
                     {
                         Item.Phone,
                         Item.Watch,
@@ -145,7 +149,7 @@ namespace TheifAndPolice
                     Inventory = new List<Item>()
 
                 };
-                //cond
+                //no cond that prevents objects to generate with the same x,ycoord
                 people.Add(police);
 
             }
@@ -153,9 +157,9 @@ namespace TheifAndPolice
 
 
         }
-
+    
     }
-    class Thief : Person
+    public class Thief : Person
     {
         public override char Symbol { get; set; } = 'T';
     }
