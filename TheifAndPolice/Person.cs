@@ -111,7 +111,7 @@ namespace TheifAndPolice
         }
         public static List<Person> CreatePeople(int height, int width)
         {
-            int numberOfPeople = 3; //just a random number added for simplification conmtrols the amount of citizen,police,thieves where the amount of each type is equal.
+            int numberOfPeople = 8; //just a random number added for simplification conmtrols the amount of citizen,police,thieves where the amount of each type is equal.
             Random rnd = new Random();
             List<Person> people = new List<Person>();
 

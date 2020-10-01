@@ -32,7 +32,6 @@ namespace TheifAndPolice
             
             while (true)
             {
-                Console.Clear();
                 
                 Console.CursorVisible = false;
                 DrawCitySize();
@@ -57,18 +56,18 @@ namespace TheifAndPolice
             {
                 foreach (Thief thief in Prison)
                 {
-                    thief.TimeInJail -= 2000;
+                    thief.TimeInJail -= 4000;
                 }
                 Console.WriteLine(Event);  
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
             }
             else
             {
                 foreach (Thief thief in Prison)
                 {
-                    thief.TimeInJail -=300;
+                    thief.TimeInJail -=600; //supergood loop compensates
                 }
-                Thread.Sleep(300);
+                Thread.Sleep(1); //difference
             }
 
         }
@@ -141,14 +140,7 @@ namespace TheifAndPolice
         {
 
             char[,] array2d = new char[Height, Width];
-            for (int i = 0; i < Prison.Count; i++)
-            {
-                Console.WriteLine($"Prisoner {i+1}: will be released from prison in: {Prison[i].TimeInJail / 1000} sec.");
-               
-            }
-
-            Console.WriteLine($"Total item stolen: {TotalStolen}".ToUpper());
-            Console.WriteLine($"Number of arrests: {TotalArrests}".ToUpper());
+         
             for (int y = 0; y < array2d.GetLength(0); y++)
             {
                 for (int x = 0; x < array2d.GetLength(1); x++)
@@ -188,6 +180,16 @@ namespace TheifAndPolice
                     }
                 }
             }
+            Console.Clear();
+            for (int i = 0; i < Prison.Count; i++)
+            {
+                Console.WriteLine($"Prisoner {i + 1}: will be released from prison in: {Prison[i].TimeInJail / 1000} sec.");
+
+            }
+
+            Console.WriteLine($"Total item stolen: {TotalStolen}".ToUpper());
+            Console.WriteLine($"Number of arrests: {TotalArrests}".ToUpper());
+
             for (int y = 0; y < array2d.GetLength(0); y++)
             {
                 for (int x = 0; x < array2d.GetLength(1); x++)
@@ -233,7 +235,7 @@ namespace TheifAndPolice
                 {
                     Prison.RemoveAt(i);
                     Console.WriteLine("Prisoner was released from prison.".ToUpper());
-                    Thread.Sleep(2000);
+                   Thread.Sleep(2000);
                 }
             }
            

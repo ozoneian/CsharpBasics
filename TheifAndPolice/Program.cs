@@ -38,7 +38,7 @@ namespace TheifAndPolice
             Console.WriteLine("  Press a key.. to start the simulation...");
             Console.ReadKey(true);
             Console.Clear();
-            City runCity = new City(60, 120); //Didn't notice while I was working on this assignment but because of my 'hardcoding' for a lack of a better word. This game cannot keep up rendering large maps.
+            City runCity = new City(20, 40); //Didn't notice while I was working on this assignment but because of my 'hardcoding' for a lack of a better word. This game cannot keep up rendering large maps.
 
         }
     
