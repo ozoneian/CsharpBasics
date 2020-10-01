@@ -17,7 +17,7 @@ namespace TheifAndPolice
         public bool Collision { get; set; }
         public int TotalArrests { get; set; }
         public int TotalStolen { get; set; }
-        public static List<Person> Prison { get; } = new List<Person>();
+        public List<Thief> Prison { get; } = new List<Thief>();
 
 
         public City(int height, int width) //when a city is generated entered height n width gets "saved" into a property. And all people gets created.
@@ -32,9 +32,14 @@ namespace TheifAndPolice
             
             while (true)
             {
+                Console.Clear();
+                
                 Console.CursorVisible = false;
                 DrawCitySize();
-                Console.Clear();
+                foreach (Thief thief in Prison)
+                {
+                    thief.TimeServed();
+                }
                 foreach (var p in PeopleInCity)
                 {
                     p.Move(Height, Width);
@@ -50,13 +55,22 @@ namespace TheifAndPolice
 
             if (Collision)
             {
-                Console.WriteLine(Event);
+                foreach (Thief thief in Prison)
+                {
+                    thief.TimeInJail -= 2000;
+                }
+                Console.WriteLine(Event);  
                 Thread.Sleep(2000);
             }
             else
             {
+                foreach (Thief thief in Prison)
+                {
+                    thief.TimeInJail -=300;
+                }
                 Thread.Sleep(300);
             }
+
         }
         public void GetCollisions() //two loops that compares if "different" people meet. the interaction between thief n police and thief and citizen only matters
         {
@@ -69,7 +83,7 @@ namespace TheifAndPolice
 
                 foreach (var personType in PeopleInCity)
                 {
-                    if (personType.GetType().Name == "Thief" && personType.InPrison!=true && person.GetType().Name =="Citizen")
+                    if ((personType.GetType()==typeof(Thief) && personType.InPrison==false && person.GetType()==typeof(Citizen)))
                     {
                         if (personType.PositionX==person.PositionX && personType.PositionY==person.PositionY)
                         {
@@ -90,9 +104,10 @@ namespace TheifAndPolice
                             Collision = true;
                         }
                     }
-                    if (personType.GetType().Name == "Thief" && personType.InPrison!=true && person.GetType().Name == "Police")
+                    if (personType.GetType()==typeof(Thief) && personType.InPrison==false && person.GetType()==typeof(Police))
                     {
                         string builder = "";
+                        
                         if (personType.PositionX == person.PositionX && personType.PositionY == person.PositionY)
                         {
                             TotalArrests++;
@@ -114,43 +129,45 @@ namespace TheifAndPolice
                             Event += " Thief gets sent of to jail!" + Environment.NewLine;
                             //send personType to jail.
                             Collision = true;
-                            HandlePrison(personType);
+                            HandlePrison((Thief)personType);
                         }
                     }
-                    
                 }
-             
             }
-           
         }
+ 
     
-
-        public void DrawCitySize()
+   public void DrawCitySize()
         {
 
             char[,] array2d = new char[Height, Width];
-            Console.WriteLine("Number of thieves in prison: " + Prison.Count);
+            for (int i = 0; i < Prison.Count; i++)
+            {
+                Console.WriteLine($"Prisoner {i+1}: will be released from prison in: {Prison[i].TimeInJail / 1000} sec.");
+               
+            }
 
             Console.WriteLine($"Total item stolen: {TotalStolen}".ToUpper());
             Console.WriteLine($"Number of arrests: {TotalArrests}".ToUpper());
-            for (int y = 0; y < array2d.GetLength(0); y++) 
+            for (int y = 0; y < array2d.GetLength(0); y++)
             {
-                for (int x = 0; x < array2d.GetLength(1); x++) 
+                for (int x = 0; x < array2d.GetLength(1); x++)
                 {
 
 
                     foreach (var p in PeopleInCity)
                     {
-                        if (p is Thief && p.InPrison != true && p.PositionX == x && p.PositionY == y)
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        if (p.GetType() == typeof(Thief) && p.InPrison == false && p.PositionX == x && p.PositionY == y)
                         {
                             if (array2d[y, x] == '\0')
                             {
-                                array2d[y, x] = p.Symbol;
-                            }
-                            else array2d[y, x] = 'X';
 
+                                array2d[y, x] = p.Symbol;
+                            }
+                            else array2d[y, x] = 'X';
                         }
-                        if (p is Police && p.PositionX == x && p.PositionY == y)
+                        if (p.GetType() == typeof(Police) && p.PositionX == x && p.PositionY == y)
                         {
                             if (array2d[y, x] == '\0')
                             {
@@ -158,7 +175,7 @@ namespace TheifAndPolice
                             }
                             else array2d[y, x] = 'X';
                         }
-                        if (p is Citizen && p.PositionX == x && p.PositionY == y)
+                        if (p.GetType() == typeof(Citizen) && p.PositionX == x && p.PositionY == y)
                         {
                             if (array2d[y, x] == '\0')
                             {
@@ -169,29 +186,65 @@ namespace TheifAndPolice
                         }
 
                     }
+                }
+            }
+            for (int y = 0; y < array2d.GetLength(0); y++)
+            {
+                for (int x = 0; x < array2d.GetLength(1); x++)
+                {
                     if (x == 0 || y == 0 || x == array2d.GetLength(1) - 1 || y == array2d.GetLength(0) - 1)
                     {
                         array2d[y, x] = '*';
                         Console.Write(array2d[y, x]);
+                        Console.ResetColor();
+
                     }
 
                     else
                     {
+                        if (array2d[y, x] == 'P')
+                        {
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                        }
+                        if (array2d[y, x] == 'T')
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                        }
+                        if (array2d[y, x] == 'C')
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                        }
+                        if (array2d[y, x] == 'X')
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkGray;
+                        }
 
                         Console.Write(array2d[y, x]);
+                        Console.ResetColor();
 
                     }
 
                 }
                 Console.WriteLine();
             }
+            for (int i = 0; i < Prison.Count; i++)
+            {
+                if (Prison[i].TimeInJail < 0)
+                {
+                    Prison.RemoveAt(i);
+                    Console.WriteLine("Prisoner was released from prison.".ToUpper());
+                    Thread.Sleep(2000);
+                }
+            }
+           
             CheckCollision();
 
 
         }
-        public void HandlePrison(Person arrested) //no timefunctions added yet
+        public void HandlePrison(Thief arrested) //no timefunction added
         {
-            arrested.InPrison = true;
+            arrested.TimeInJail = 30000;
+            arrested.TimeServed();
             Prison.Add(arrested);
         }
     }

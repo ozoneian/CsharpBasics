@@ -16,6 +16,8 @@ namespace TheifAndPolice
         public bool InPrison { get; set; }
 
 
+
+
         public Person()
         {
             int direction = Rand.Next(1, 8 + 1); //hopefully a random int(created when object is) between 1,8 that will permanetly decide which switch case to be used for movement.
@@ -109,7 +111,7 @@ namespace TheifAndPolice
         }
         public static List<Person> CreatePeople(int height, int width)
         {
-            int numberOfPeople = 2; //just a random number added for simplification conmtrols the amount of citizen,police,thieves where the amount of each type is equal.
+            int numberOfPeople = 3; //just a random number added for simplification conmtrols the amount of citizen,police,thieves where the amount of each type is equal.
             Random rnd = new Random();
             List<Person> people = new List<Person>();
 
@@ -120,7 +122,6 @@ namespace TheifAndPolice
                     PositionX = rnd.Next(0 + 1, width - 1), //rand initial position
                     PositionY = rnd.Next(0 + 1, height - 1),
                     Inventory = new List<Item>(),
-                    InPrison = false
 
                 };
                 people.Add(thief);
@@ -162,15 +163,32 @@ namespace TheifAndPolice
     public class Thief : Person
     {
         public override char Symbol { get; set; } = 'T';
+        public int TimeInJail { get; set; }
+
+        public void TimeServed()
+        {
+            if (TimeInJail > 0)
+            {
+                
+                InPrison = true;
+            }
+            else
+            {
+                InPrison = false;
+            }
+        }
+
     }
     class Citizen : Person
     {
         public override char Symbol { get; set; } = 'C';
 
+
     }
-    class Police : Person
+    public class Police : Person
     {
         public override char Symbol { get; set; } = 'P';
+
 
     }
 }
