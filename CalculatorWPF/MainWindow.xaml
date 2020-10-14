@@ -1,0 +1,18 @@
+﻿<Window x:Class="CalculatorWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CalculatorWPF"
+        mc:Ignorable="d" FontSize="20"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <TextBox x:Name="numberOne" HorizontalAlignment="Left" Height="24" Margin="80,55,0,0" Text="Number" TextWrapping="Wrap" VerticalAlignment="Top" Width="103" GotFocus="NumberOne_GotFocus"/>
+        <TextBox x:Name="numberTwo" HorizontalAlignment="Left" Height="24" Margin="224,55,0,0" Text="Number" TextWrapping="Wrap" VerticalAlignment="Top" Width="103" GotFocus="NumberTwo_GotFocus" />
+        <Button x:Name="multButton" Content="Multiply" HorizontalAlignment="Left" Height="28" Margin="93,160,0,0" VerticalAlignment="Top" Width="128" Click="Mult_Click" />
+        <Button x:Name="divButton" Content="Divide" HorizontalAlignment="Left" Height="28" Margin="93,0,0,0" VerticalAlignment="Center" Width="128" Click="Div_Click"/>
+        <Button x:Name="subButton" Content="Subtract" HorizontalAlignment="Left" Height="28" Margin="93,289,0,0" VerticalAlignment="Top" Width="128" Click="Sub_Click"/>
+        <Button x:Name="addButton" Content="Add" HorizontalAlignment="Left" Height="28" Margin="93,244,0,0" VerticalAlignment="Top" Width="128" Click="Add_Click"/>
+        <ListBox x:Name="displayCalcResult" HorizontalAlignment="Left" Height="280" Margin="429,126,0,0" VerticalAlignment="Top" Width="339"/>
+    </Grid>
+</Window>
