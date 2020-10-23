@@ -15,7 +15,7 @@ namespace HarbourAdmin
             get { return currentDay; }
             set
             {
-                if (value > 6)
+                if (value >= 6)
                 {
                     Docked = false;
                 }
