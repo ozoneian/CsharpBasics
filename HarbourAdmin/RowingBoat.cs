@@ -35,5 +35,9 @@ namespace HarbourAdmin
             MaxPassenger = Rand.Next(1, 6 + 1);
             DockSlot = 1; //0,5*2
         }
+        public override void AddDay()
+        {
+            DaysDocked++;
+        }
     }
 }

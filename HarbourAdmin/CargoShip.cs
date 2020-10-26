@@ -35,5 +35,9 @@ namespace HarbourAdmin
             MaxSpeed = Rand.Next(0, 20 + 1);
             CargoContainers = Rand.Next(0, 500 + 1);
         }
+        public override void AddDay()
+        {
+            DaysDocked++;
+        }
     }
 }

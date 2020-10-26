@@ -34,5 +34,9 @@ namespace HarbourAdmin
             NumberOfHorsepower = Rand.Next(10, 1000 + 1);
             DockSlot = 1 * 2;
         }
+        public override void AddDay()
+        {
+            DaysDocked++;
+        }
     }
 }

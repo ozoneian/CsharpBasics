@@ -26,5 +26,9 @@ namespace HarbourAdmin
 
             return letters;
         }
+        public virtual void AddDay()
+        {
+          
+        }
     }
 }

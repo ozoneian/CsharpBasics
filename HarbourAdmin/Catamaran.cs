@@ -34,5 +34,9 @@ namespace HarbourAdmin
             MaxSpeed = Rand.Next(0, 12 + 1);
             Beds = Rand.Next(1, 4 + 1);
         }
+        public override void AddDay()
+        {
+            DaysDocked++;
+        }
     }
 }

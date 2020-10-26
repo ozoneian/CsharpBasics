@@ -34,5 +34,9 @@ namespace HarbourAdmin
             MaxSpeed = Rand.Next(0,12+1);
             DockSlot = 2 * 2;
         }
+        public override void AddDay()
+        {
+            DaysDocked++;
+        }
     }
 }

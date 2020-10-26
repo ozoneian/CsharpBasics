@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 
 namespace HarbourAdmin
 {
@@ -10,8 +12,8 @@ namespace HarbourAdmin
         static Random Rand { get; set; } = new Random();
 
         public int Counter { get; set; } = 0;
-        public int Day { get; set; } = 0;
-        public Boat[] BoatsInBay { get; set; } = new Boat[64*2];
+        public int Day { get; set; } = 1;
+        public Boat[] Docks { get; set; } = new Boat[64*2];
         public int TempInterval { get; set; }
         static void Main(string[] args)
         {
@@ -23,13 +25,11 @@ namespace HarbourAdmin
         {
             while (true)
             {
-                Day++;
-
-                GenerateBoat(5);
+                
+                GenerateBoat(10);
                 Console.WriteLine("DAY: " + Day);
-                foreach (var boat in BoatsInBay)
+                foreach (var boat in Docks)
                 {
-                    Counter++;
                     if (boat == null)
                     {
                         Console.WriteLine("Båtplats " + Counter + ": empty!");
@@ -38,81 +38,62 @@ namespace HarbourAdmin
                     {
                         Console.WriteLine($"Båtplats {Counter}: {boat.GetType().Name} ID: {boat.ID} maxspeed: {boat.MaxSpeed} vikt: {boat.Weight}. ");
                     }
-                 }
+                    Counter++;
+
+                }
                 Counter = 0;
+
+                DisplayHarbour();
+                NewDay();
 
                 Console.ReadKey(true);
                 Console.Clear();
+                RemoveBoat();
+
             }
-        //        SailBoat s = new SailBoat();
-        //        BoatsInBay.SetValue(s, 0);
-        //        BoatsInBay.SetValue(s, 1);
-        //        BoatsInBay.SetValue(s, 2);
-        //        BoatsInBay.SetValue(s, 3);
-        //        s.Docked = true;
+        }
+        public void DisplayHarbour()
+        {
+            var boatsInDock = Docks
+                .Where(b => b != null)
+                .GroupBy(b => b.ID)
+                .Count();
 
-        //        RowingBoat r = new RowingBoat();
-        //        Array.Fill(BoatsInBay, r, 4, 1);
-        //    r.Docked = true;
+            Console.WriteLine(boatsInDock);
 
-        //        CargoShip c = new CargoShip();
-        //        Array.Fill(BoatsInBay, c, 6, c.DockSlot);
-        //    c.Docked = true;
-        //        RowingBoat r2 = new RowingBoat();
-        //        BoatsInBay.SetValue(r2, Array.FindIndex(BoatsInBay, i => i == null));
-        //    r2.Docked = true;
 
-           
-              
-           // All(i => i != -1)
+            Console.ReadKey(true);
+        }
+        public void NewDay()
+        {
+            Day++;
 
-            //foreach (var item in q)
-            //{
-            //    Console.WriteLine(item);
-            //}
+          
 
-            //int[] numbers = { 0, 30, 20, 15, 90, 85, 40, 75 };
-
-            //IEnumerable<int> query = 
-            //    numbers.Where((number, index) => number <= index * 10);
-
-            //foreach (int number in query)
-            //{
-            //    Console.WriteLine(number);
-            //}
-            //Console.ReadKey();
-            //while (true)
-            //{
-                
-
-            //    Console.WriteLine($"DAY: {Day}");
-            //    for (int i = 0; i < BoatsInBay.Length; i += 2)
-            //    {
-            //        Counter++;
-            //        Console.WriteLine($"Båtplats {Counter}: {BoatsInBay.GetValue(i)} ");
-            //    }
-            //    Counter = 0;
-
-            //   s.DaysDocked++;
-            //    r2.DaysDocked++;
-            //    c.DaysDocked++;
-            //    r.DaysDocked++;
-            //    Day++;
-
-            //    int[] result = BoatsInBay
-            //         .Select((b, i) => b != null && b.Docked == false ? i : -1)
-            //                  .Where(i => i != -1)
-            //                  .ToArray();
-
-            //    foreach (var item in result)
-            //    {
-            //        BoatsInBay.SetValue(null, item);
-            //    }
+            foreach (var boat in Docks)
+            {
+                if (boat!=null)
+                {
+                    boat.AddDay(); //adds one day per object references very bad.. but logical ofc
+                }
             }
-        
+        }
+        public void RemoveBoat()
+        {
+            int[] result = Docks
+                      .Select((b, i) => b != null && b.Docked == false ? i : -1)
+                      .Where(i => i != -1)
+                      .ToArray();
+
+                foreach (var item in result)
+                {
+                    Docks.SetValue(null, item);
+                }
+        }
+
         public void GenerateBoat(int amount)
         {
-            for (int j = 0; j < amount; j++)
+            for (int boat = 0; boat < amount; boat++)
             {
 
                 int test = 0;
@@ -123,15 +104,15 @@ namespace HarbourAdmin
                         SailBoat s = new SailBoat();
 
 
-                        for (int i = 0; i < BoatsInBay.Length; i++)
+                        for (int i = 0; i < Docks.Length; i+=2)
                         {
-                            if (BoatsInBay[i] == null)
+                            if (Docks[i] == null)
                             {
-                                test++;
+                                test+=2;
                                 if (test > s.DockSlot)
                                 {
                                     TempInterval = i - s.DockSlot;
-                                    Array.Fill(BoatsInBay, s, TempInterval, s.DockSlot);
+                                    Array.Fill(Docks, s, TempInterval, s.DockSlot);
                                     s.Docked = true;
 
                                     break;
@@ -150,18 +131,15 @@ namespace HarbourAdmin
                         RowingBoat r = new RowingBoat();
 
 
-                        for (int i = 0; i < BoatsInBay.Length; i++)
+                        for (int i = 0; i < Docks.Length; i++)
                         {
-                            if (BoatsInBay[i] == null)
+                            if (Docks[i] == null)
                             {
-                                test++;
-                                if (test > r.DockSlot)
-                                {
-                                    TempInterval = i - r.DockSlot;
-                                    Array.Fill(BoatsInBay, r, TempInterval, r.DockSlot);
+                                
+                                    Array.Fill(Docks, r, i, r.DockSlot);
                                     r.Docked = true;
                                     break;
-                                }
+                                
                             }
                             else
                             {
@@ -175,15 +153,15 @@ namespace HarbourAdmin
                         PowerBoat p = new PowerBoat();
 
 
-                        for (int i = 0; i < BoatsInBay.Length; i++)
+                        for (int i = 0; i < Docks.Length; i+=2)
                         {
-                            if (BoatsInBay[i] == null)
+                            if (Docks[i] == null)
                             {
-                                test++;
+                                test+=2;
                                 if (test > p.DockSlot)
                                 {
                                     TempInterval = i - p.DockSlot;
-                                    Array.Fill(BoatsInBay, p, TempInterval, p.DockSlot);
+                                    Array.Fill(Docks, p, TempInterval, p.DockSlot);
                                     p.Docked = true;
                                     break;
                                 }
@@ -200,15 +178,15 @@ namespace HarbourAdmin
                         Catamaran k = new Catamaran();
 
 
-                        for (int i = 0; i < BoatsInBay.Length; i++)
+                        for (int i = 0; i < Docks.Length; i+=2)
                         {
-                            if (BoatsInBay[i] == null)
+                            if (Docks[i] == null)
                             {
-                                test++;
+                                test+=2;
                                 if (test > k.DockSlot)
                                 {
                                     TempInterval = i - k.DockSlot;
-                                    Array.Fill(BoatsInBay, k, TempInterval, k.DockSlot);
+                                    Array.Fill(Docks, k, TempInterval, k.DockSlot);
                                     k.Docked = true;
                                     break;
                                 }
@@ -224,16 +202,15 @@ namespace HarbourAdmin
                     case 5:
                         CargoShip c = new CargoShip();
 
-
-                        for (int i = 0; i < BoatsInBay.Length; i++)
+                        for (int i = Docks.Length -1; i > 0; i-=2)
                         {
-                            if (BoatsInBay[i] == null)
+                            if (Docks[i] == null)
                             {
-                                test++;
+                                test+=2;
                                 if (test > c.DockSlot)
                                 {
-                                    TempInterval = i - c.DockSlot;
-                                    Array.Fill(BoatsInBay, c, TempInterval, c.DockSlot);
+                                    TempInterval = i+1;
+                                    Array.Fill(Docks, c, TempInterval, c.DockSlot);
                                     c.Docked = true;
 
                                     break;
