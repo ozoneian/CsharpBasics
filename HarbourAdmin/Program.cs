@@ -14,6 +14,7 @@ namespace HarbourAdmin
         public int Counter { get; set; } = 0;
         public int Day { get; set; } = 1;
         public Boat[] Docks { get; set; } = new Boat[64*2];
+        public List<Boat> Boats { get; set; } = new List<Boat>();
         public int TempInterval { get; set; }
         static void Main(string[] args)
         {
@@ -54,27 +55,21 @@ namespace HarbourAdmin
         }
         public void DisplayHarbour()
         {
-            var boatsInDock = Docks
-                .Where(b => b != null)
-                .GroupBy(b => b.ID)
-                .Count();
+            foreach (var item in Boats)
+            {
+                Console.WriteLine(item.ID + " " + item.Weight);
+            }
 
-            Console.WriteLine(boatsInDock);
-
-
-            Console.ReadKey(true);
         }
         public void NewDay()
         {
             Day++;
 
-          
-
-            foreach (var boat in Docks)
+            foreach (var boat in Boats)
             {
-                if (boat!=null)
+                if (boat != null)
                 {
-                    boat.AddDay(); //adds one day per object references very bad.. but logical ofc
+                    boat.AddDay();
                 }
             }
         }
@@ -89,6 +84,8 @@ namespace HarbourAdmin
                 {
                     Docks.SetValue(null, item);
                 }
+            Boats
+                .RemoveAll(b => b!=null && b.Docked == false);
         }
 
         public void GenerateBoat(int amount)
@@ -113,6 +110,7 @@ namespace HarbourAdmin
                                 {
                                     TempInterval = i - s.DockSlot;
                                     Array.Fill(Docks, s, TempInterval, s.DockSlot);
+                                    Boats.Add(s);
                                     s.Docked = true;
 
                                     break;
@@ -137,6 +135,7 @@ namespace HarbourAdmin
                             {
                                 
                                     Array.Fill(Docks, r, i, r.DockSlot);
+                                    Boats.Add(r);
                                     r.Docked = true;
                                     break;
                                 
@@ -162,6 +161,7 @@ namespace HarbourAdmin
                                 {
                                     TempInterval = i - p.DockSlot;
                                     Array.Fill(Docks, p, TempInterval, p.DockSlot);
+                                    Boats.Add(p);
                                     p.Docked = true;
                                     break;
                                 }
@@ -187,6 +187,7 @@ namespace HarbourAdmin
                                 {
                                     TempInterval = i - k.DockSlot;
                                     Array.Fill(Docks, k, TempInterval, k.DockSlot);
+                                    Boats.Add(k);
                                     k.Docked = true;
                                     break;
                                 }
@@ -211,6 +212,7 @@ namespace HarbourAdmin
                                 {
                                     TempInterval = i+1;
                                     Array.Fill(Docks, c, TempInterval, c.DockSlot);
+                                    Boats.Add(c);
                                     c.Docked = true;
 
                                     break;
