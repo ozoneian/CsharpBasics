@@ -16,6 +16,8 @@ namespace HarbourAdmin
         public Boat[] Docks { get; set; } = new Boat[64*2];
         public List<Boat> Boats { get; set; } = new List<Boat>(); //beeneficial when I want to manipulate objects/display/sort.
         public int TempInterval { get; set; }
+        public int RejectedBoats { get; set; }
+        public int AddedBoats { get; set; }
         static void Main(string[] args)
         {
             Program p = new Program();
@@ -26,60 +28,63 @@ namespace HarbourAdmin
         {
             while (true)
             {
-                
-                GenerateBoat(10);
-                Console.WriteLine("DAY: " + Day);
-                int empty = 0;
-                foreach (var boat in Docks)
-                {
-                    if (boat == null)
-                    {
-                        empty++;
-
-                    }
-                    else
-                    {
-
-                        if (empty>0)
-                        {
-                            Console.WriteLine($"{(Counter - empty)}-{Counter}: empty");
-                            empty = 0;
-                        }
-                        if (boat!=Docks[Counter>0?Counter-1 : Counter])
-                        {
-                            
-                            string info = boat.DisplayBoatInfo();
-                            Console.WriteLine($"{(Counter)/2}-{(Counter+boat.Slots)/2} {info}");
-
-                        }
-                        
-                       
-                         //Console.WriteLine($"Båtplats {Counter}: {boat.GetType().Name} ID: {boat.ID} maxspeed: {boat.MaxSpeed} vikt: {boat.Weight}. ");
-                    }
-                    Counter++;
-
-                }
-                Counter = 0;
-
-                DisplayHarbour();
-                NewDay();
-
-                Console.ReadKey(true);
-                Console.Clear();
                 RemoveBoat();
-
+                GenerateBoat(10);
+                DisplayDock();
+                DisplayInfo();
+                Console.ReadKey(true);
+                NewDay();
+                Console.Clear();
             }
         }
-        public void DisplayHarbour()
-        {
-            foreach (var item in Boats)
-            {
-                Console.WriteLine(item.ID + " " + item.Weight);
-            }
 
+        private void DisplayDock()
+        {
+            Console.WriteLine("DAY: " + Day);
+            int empty = 0;
+            Console.WriteLine("Plats   Båttyp   ID-Nr   Vikt   Maxhastighet   Övrigt");
+            foreach (var boat in Docks)
+            {
+                if (boat == null)
+                {
+                    empty++;
+
+                }
+                else
+                {
+                    if (empty > 0)
+                    {
+                        Console.WriteLine($"{(Counter - empty) / 2}-{Counter / 2}: empty"); //fullösning
+                        empty = 0;
+                    }
+                    if (boat != Docks[Counter > 0 ? Counter - 1 : Counter] || boat == Docks[0] && Counter == 0)
+                    {
+
+                        string info = boat.DisplayBoatInfo();
+                        Console.WriteLine($"{(Counter) / 2}-{(Counter + boat.Slots) / 2} {info}");
+
+                    }
+                }
+                Counter++;
+
+            }
+            if (empty > 0)
+            {
+                Console.WriteLine($"{(Counter - empty) / 2}-{Counter / 2}: empty"); //en till fullösning
+            }
+        }
+
+        public void DisplayInfo()
+        {
+            Console.WriteLine("Additional dock info: ");
+            Console.WriteLine($"Number of boats currently in dock: {AddedBoats}.");
+            Console.WriteLine($"Number of boats rejected (day: {Day}): {RejectedBoats}");
         }
         public void NewDay()
         {
+            Counter = 0;
+            RejectedBoats = 0;
+            AddedBoats = 0;
             Day++;
 
             foreach (var boat in Boats)
@@ -110,7 +115,7 @@ namespace HarbourAdmin
             for (int boat = 0; boat < amount; boat++)
             {
 
-                int test = 0;
+                int avaliableSpace = 0;
 
                 switch (Rand.Next(1, 5 + 1))
                 {
@@ -122,8 +127,8 @@ namespace HarbourAdmin
                         {
                             if (Docks[i] == null)
                             {
-                                test+=2;
-                                if (test > s.Slots)
+                                avaliableSpace+=2;
+                                if (avaliableSpace > s.Slots)
                                 {
                                     TempInterval = i - s.Slots;
                                     Array.Fill(Docks, s, TempInterval, s.Slots);
@@ -135,9 +140,10 @@ namespace HarbourAdmin
                             }
                             else
                             {
-                                test = 0;
+                                avaliableSpace = 0;
                             }
                         }
+                        _ = Boats.Contains(s) ? AddedBoats++ : RejectedBoats++;
 
 
                         break;
@@ -159,9 +165,11 @@ namespace HarbourAdmin
                             }
                             else
                             {
-                                test = 0;
+                                avaliableSpace = 0;
                             }
                         }
+                        _ = Boats.Contains(r) ? AddedBoats++ : RejectedBoats++;
+
 
                         break;
 
@@ -173,8 +181,8 @@ namespace HarbourAdmin
                         {
                             if (Docks[i] == null)
                             {
-                                test+=2;
-                                if (test > p.Slots)
+                                avaliableSpace+=2;
+                                if (avaliableSpace > p.Slots)
                                 {
                                     TempInterval = i - p.Slots;
                                     Array.Fill(Docks, p, TempInterval, p.Slots);
@@ -185,9 +193,11 @@ namespace HarbourAdmin
                             }
                             else
                             {
-                                test = 0;
+                                avaliableSpace = 0;
                             }
                         }
+                        _ = Boats.Contains(p) ? AddedBoats++ : RejectedBoats++;
+
 
                         break;
 
@@ -199,8 +209,8 @@ namespace HarbourAdmin
                         {
                             if (Docks[i] == null)
                             {
-                                test+=2;
-                                if (test > k.Slots)
+                                avaliableSpace+=2;
+                                if (avaliableSpace > k.Slots)
                                 {
                                     TempInterval = i - k.Slots;
                                     Array.Fill(Docks, k, TempInterval, k.Slots);
@@ -211,9 +221,11 @@ namespace HarbourAdmin
                             }
                             else
                             {
-                                test = 0;
+                                avaliableSpace = 0;
                             }
                         }
+                        _ = Boats.Contains(k) ? AddedBoats++ : RejectedBoats++;
+
 
                         break;
 
@@ -224,8 +236,8 @@ namespace HarbourAdmin
                         {
                             if (Docks[i] == null)
                             {
-                                test+=2;
-                                if (test > c.Slots)
+                                avaliableSpace+=2;
+                                if (avaliableSpace > c.Slots)
                                 {
                                     TempInterval = i+1;
                                     Array.Fill(Docks, c, TempInterval, c.Slots);
@@ -237,9 +249,11 @@ namespace HarbourAdmin
                             }
                             else
                             {
-                                test = 0;
+                                avaliableSpace = 0;
                             }
                         }
+                        _ = Boats.Contains(c) ? AddedBoats++ : RejectedBoats++;
+
                         break;
                 }
 
