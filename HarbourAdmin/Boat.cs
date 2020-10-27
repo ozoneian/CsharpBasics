@@ -5,7 +5,7 @@ namespace HarbourAdmin
     class Boat
     {
         public bool Docked { get; set; } = false;
-
+        public virtual int Slots { get; set; }
         static Random Rand { get; set; } = new Random();
         public int Weight { get; set; } //kg
         public int MaxSpeed { get; set; } //knot
@@ -29,6 +29,11 @@ namespace HarbourAdmin
         public virtual void AddDay()
         {
           
+        }
+        public virtual string DisplayBoatInfo() 
+        {
+            return " ";
+
         }
     }
 }

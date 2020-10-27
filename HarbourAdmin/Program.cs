@@ -14,7 +14,7 @@ namespace HarbourAdmin
         public int Counter { get; set; } = 0;
         public int Day { get; set; } = 1;
         public Boat[] Docks { get; set; } = new Boat[64*2];
-        public List<Boat> Boats { get; set; } = new List<Boat>();
+        public List<Boat> Boats { get; set; } = new List<Boat>(); //beeneficial when I want to manipulate objects/display/sort.
         public int TempInterval { get; set; }
         static void Main(string[] args)
         {
@@ -29,15 +29,32 @@ namespace HarbourAdmin
                 
                 GenerateBoat(10);
                 Console.WriteLine("DAY: " + Day);
+                int empty = 0;
                 foreach (var boat in Docks)
                 {
                     if (boat == null)
                     {
-                        Console.WriteLine("Båtplats " + Counter + ": empty!");
+                        empty++;
+
                     }
                     else
                     {
-                        Console.WriteLine($"Båtplats {Counter}: {boat.GetType().Name} ID: {boat.ID} maxspeed: {boat.MaxSpeed} vikt: {boat.Weight}. ");
+
+                        if (empty>0)
+                        {
+                            Console.WriteLine($"{(Counter - empty)}-{Counter}: empty");
+                            empty = 0;
+                        }
+                        if (boat!=Docks[Counter>0?Counter-1 : Counter])
+                        {
+                            
+                            string info = boat.DisplayBoatInfo();
+                            Console.WriteLine($"{(Counter)/2}-{(Counter+boat.Slots)/2} {info}");
+
+                        }
+                        
+                       
+                         //Console.WriteLine($"Båtplats {Counter}: {boat.GetType().Name} ID: {boat.ID} maxspeed: {boat.MaxSpeed} vikt: {boat.Weight}. ");
                     }
                     Counter++;
 
@@ -106,10 +123,10 @@ namespace HarbourAdmin
                             if (Docks[i] == null)
                             {
                                 test+=2;
-                                if (test > s.DockSlot)
+                                if (test > s.Slots)
                                 {
-                                    TempInterval = i - s.DockSlot;
-                                    Array.Fill(Docks, s, TempInterval, s.DockSlot);
+                                    TempInterval = i - s.Slots;
+                                    Array.Fill(Docks, s, TempInterval, s.Slots);
                                     Boats.Add(s);
                                     s.Docked = true;
 
@@ -134,7 +151,7 @@ namespace HarbourAdmin
                             if (Docks[i] == null)
                             {
                                 
-                                    Array.Fill(Docks, r, i, r.DockSlot);
+                                    Array.Fill(Docks, r, i, r.Slots);
                                     Boats.Add(r);
                                     r.Docked = true;
                                     break;
@@ -157,10 +174,10 @@ namespace HarbourAdmin
                             if (Docks[i] == null)
                             {
                                 test+=2;
-                                if (test > p.DockSlot)
+                                if (test > p.Slots)
                                 {
-                                    TempInterval = i - p.DockSlot;
-                                    Array.Fill(Docks, p, TempInterval, p.DockSlot);
+                                    TempInterval = i - p.Slots;
+                                    Array.Fill(Docks, p, TempInterval, p.Slots);
                                     Boats.Add(p);
                                     p.Docked = true;
                                     break;
@@ -183,10 +200,10 @@ namespace HarbourAdmin
                             if (Docks[i] == null)
                             {
                                 test+=2;
-                                if (test > k.DockSlot)
+                                if (test > k.Slots)
                                 {
-                                    TempInterval = i - k.DockSlot;
-                                    Array.Fill(Docks, k, TempInterval, k.DockSlot);
+                                    TempInterval = i - k.Slots;
+                                    Array.Fill(Docks, k, TempInterval, k.Slots);
                                     Boats.Add(k);
                                     k.Docked = true;
                                     break;
@@ -208,10 +225,10 @@ namespace HarbourAdmin
                             if (Docks[i] == null)
                             {
                                 test+=2;
-                                if (test > c.DockSlot)
+                                if (test > c.Slots)
                                 {
                                     TempInterval = i+1;
-                                    Array.Fill(Docks, c, TempInterval, c.DockSlot);
+                                    Array.Fill(Docks, c, TempInterval, c.Slots);
                                     Boats.Add(c);
                                     c.Docked = true;
 

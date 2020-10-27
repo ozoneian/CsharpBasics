@@ -7,7 +7,8 @@ namespace HarbourAdmin
         static Random Rand { get; set; } = new Random();
 
         public int NumberOfHorsepower { get; set; }
-        public int DockSlot { get; private set; }
+        public override int Slots { get; set; } = 1 *2;
+
         private int currentDay;
 
         public int DaysDocked
@@ -32,11 +33,16 @@ namespace HarbourAdmin
             Weight = Rand.Next(200, 3000 + 1);
             MaxSpeed = Rand.Next(0, 60 + 1);
             NumberOfHorsepower = Rand.Next(10, 1000 + 1);
-            DockSlot = 1 * 2;
         }
         public override void AddDay()
         {
             DaysDocked++;
+        }
+        public override string DisplayBoatInfo()
+        {
+            return $" {GetType().Name.ToLower()} - {ID} - {Weight} - {MaxSpeed} - Horsepower: {NumberOfHorsepower}";
+
+
         }
     }
 }
