@@ -40,7 +40,12 @@ namespace HarbourAdmin
         }
         public override string DisplayBoatInfo()
         {
-            return $" {GetType().Name.ToLower()} - {ID} - {Weight} - {MaxSpeed} - Max passengers: {MaxPassenger}";
+            return $" {GetType().Name.ToLower()} - {ID} - {Weight} kg - {Math.Round(MaxSpeed * 1.85200)} km/h - Max passengers: {MaxPassenger}";
+
+        }
+        public override string BoatInfo()
+        {
+            return $"{GetType().Name},{ID},{Weight},{MaxSpeed},{MaxPassenger},{DaysDocked}";
 
         }
     }

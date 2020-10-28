@@ -35,5 +35,10 @@ namespace HarbourAdmin
             return " ";
 
         }
+        public virtual string BoatInfo()
+        {
+            return " ";
+
+        }
     }
 }

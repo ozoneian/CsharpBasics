@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
@@ -18,24 +19,145 @@ namespace HarbourAdmin
         public int TempInterval { get; set; }
         public int RejectedBoats { get; set; }
         public int AddedBoats { get; set; }
+        public string Data { get; set; }
+        public string DataPath { get; private set; } = "Boats.txt";
         static void Main(string[] args)
         {
             Program p = new Program();
             p.Run();
+            
 
+        }
+        public void ReadDockData()
+        {
+            Data = File.ReadAllText(DataPath);
+            string[] split = Data.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+
+
+            foreach (var item in split)
+            {
+                if (item==split[0])
+                {
+                    string[] counters = item.Split('-', StringSplitOptions.RemoveEmptyEntries);
+                    Day = int.Parse(counters[0]);
+                    RejectedBoats = int.Parse(counters[1]);
+                    AddedBoats = int.Parse(counters[2]);
+                }
+                else
+                {
+                    string[] boats = item.Split(',', StringSplitOptions.RemoveEmptyEntries);
+
+                    if (boats[0].ToLower() == "sailboat" && !Array.Exists(Docks, b => b!=null && b.ID == boats[1]))
+                    {
+                        SailBoat sail = new SailBoat()
+                        {
+                            ID = boats[1],
+                            Weight = int.Parse(boats[2]),
+                            MaxSpeed = int.Parse(boats[3]),
+                            LengthInFeet = int.Parse(boats[4]),
+                            DaysDocked = int.Parse(boats[5])
+                        };
+                        Array.Fill(Docks, sail, Counter, sail.Slots);
+                        Boats.Add(sail);
+                    }
+                    if (boats[0].ToLower() == "rowingboat" && !Array.Exists(Docks, b => b != null && b.ID == boats[1]))
+                    {
+                        RowingBoat row = new RowingBoat()
+                        {
+                            ID = boats[1],
+                            Weight = int.Parse(boats[2]),
+                            MaxSpeed = int.Parse(boats[3]),
+                            MaxPassenger = int.Parse(boats[4]),
+                            DaysDocked = int.Parse(boats[5])
+                        };
+                        Array.Fill(Docks, row, Counter, row.Slots);
+                        Boats.Add(row);
+                    }
+                    if (boats[0].ToLower() == "powerboat" && !Array.Exists(Docks, b => b != null && b.ID == boats[1]))
+                    {
+                        PowerBoat power = new PowerBoat()
+                        {
+                            ID = boats[1],
+                            Weight = int.Parse(boats[2]),
+                            MaxSpeed = int.Parse(boats[3]),
+                            NumberOfHorsepower = int.Parse(boats[4]),
+                            DaysDocked = int.Parse(boats[5])
+                        };
+                        Array.Fill(Docks, power, Counter, power.Slots);
+                        Boats.Add(power);
+                    }
+                    if (boats[0].ToLower() == "catamaran" && !Array.Exists(Docks, b => b != null && b.ID == boats[1]))
+                    {
+                        Catamaran catamaran = new Catamaran()
+                        {
+                            ID = boats[1],
+                            Weight = int.Parse(boats[2]),
+                            MaxSpeed = int.Parse(boats[3]),
+                            Beds = int.Parse(boats[4]),
+                            DaysDocked = int.Parse(boats[5])
+                        };
+                        Array.Fill(Docks, catamaran, Counter, catamaran.Slots);
+                        Boats.Add(catamaran);
+                    }
+                    if (boats[0].ToLower() == "cargoship" && !Array.Exists(Docks, b => b != null && b.ID == boats[1]))
+                    {
+                        CargoShip cargo = new CargoShip()
+                        {
+                            ID = boats[1],
+                            Weight = int.Parse(boats[2]),
+                            MaxSpeed = int.Parse(boats[3]),
+                            CargoContainers = int.Parse(boats[4]),
+                            DaysDocked = int.Parse(boats[5])
+                        };
+                        Array.Fill(Docks, cargo, Counter, cargo.Slots);
+                        Boats.Add(cargo);
+                    }
+
+                    Counter++;
+
+                }
+            }
+            Counter = 0;
+            
+        }
+        public void WriteDockData()
+        {
+            File.WriteAllText(DataPath, string.Empty);
+            using StreamWriter sw = new StreamWriter(DataPath, true);
+            sw.WriteLine($"{Day} - {RejectedBoats} - {AddedBoats} - ");
+            foreach (var s in Docks)
+            {
+                if (s==null)
+                {
+                    sw.WriteLine("null");
+                }
+                else
+                {
+                    sw.WriteLine(s.BoatInfo());
+                }
+            }
+            sw.Close();
+            Console.ReadKey();
         }
         public void Run()
         {
-            while (true)
+            ReadDockData();
+            Console.WriteLine("Press any key to simulate a day or press 'q' to exit! ");
+            ConsoleKeyInfo input;
+            input = Console.ReadKey(true);
+            while (input.Key!=ConsoleKey.Q)
             {
                 RemoveBoat();
                 GenerateBoat(10);
                 DisplayDock();
                 DisplayInfo();
-                Console.ReadKey(true);
+                input = Console.ReadKey(true);
                 NewDay();
                 Console.Clear();
             }
+            WriteDockData();
+            Console.WriteLine("exiting");
+            Console.ReadKey(true);
         }
 
         private void DisplayDock()
@@ -77,14 +199,14 @@ namespace HarbourAdmin
         public void DisplayInfo()
         {
             Console.WriteLine("Additional dock info: ");
-            Console.WriteLine($"Number of boats currently in dock: {AddedBoats}.");
-            Console.WriteLine($"Number of boats rejected (day: {Day}): {RejectedBoats}");
+
+
+            Console.WriteLine($"Number of total boats added: {AddedBoats}");
+            Console.WriteLine($"Number of total boats rejected: {RejectedBoats}");
         }
         public void NewDay()
         {
             Counter = 0;
-            RejectedBoats = 0;
-            AddedBoats = 0;
             Day++;
 
             foreach (var boat in Boats)
