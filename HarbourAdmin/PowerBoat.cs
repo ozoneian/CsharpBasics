@@ -40,7 +40,7 @@ namespace HarbourAdmin
         }
         public override string DisplayBoatInfo()
         {
-            return $" {GetType().Name.ToLower()} - {ID} - {Weight} kg - {Math.Round(MaxSpeed * 1.85200)} km/h - Horsepower: {NumberOfHorsepower}";
+            return $" {GetType().Name.ToLower()} - {ID} - {Weight} kg - {Math.Round(MaxSpeed * 1.85200)} km/h - Horsepower: {NumberOfHorsepower} hk";
 
 
         }

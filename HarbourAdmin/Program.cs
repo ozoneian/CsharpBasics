@@ -31,21 +31,21 @@ namespace HarbourAdmin
         public void ReadDockData()
         {
             Data = File.ReadAllText(DataPath);
-            string[] split = Data.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+            string[] split = Data.Split('\n' );
 
 
             foreach (var item in split)
             {
                 if (item==split[0])
                 {
-                    string[] counters = item.Split('-', StringSplitOptions.RemoveEmptyEntries);
+                    string[] counters = item.Split('-');
                     Day = int.Parse(counters[0]);
                     RejectedBoats = int.Parse(counters[1]);
                     AddedBoats = int.Parse(counters[2]);
                 }
                 else
                 {
-                    string[] boats = item.Split(',', StringSplitOptions.RemoveEmptyEntries);
+                    string[] boats = item.Split(',');
 
                     if (boats[0].ToLower() == "sailboat" && !Array.Exists(Docks, b => b!=null && b.ID == boats[1]))
                     {
@@ -57,6 +57,7 @@ namespace HarbourAdmin
                             LengthInFeet = int.Parse(boats[4]),
                             DaysDocked = int.Parse(boats[5])
                         };
+                        sail.Docked = true;
                         Array.Fill(Docks, sail, Counter, sail.Slots);
                         Boats.Add(sail);
                     }
@@ -70,6 +71,8 @@ namespace HarbourAdmin
                             MaxPassenger = int.Parse(boats[4]),
                             DaysDocked = int.Parse(boats[5])
                         };
+                        row.Docked = true;
+
                         Array.Fill(Docks, row, Counter, row.Slots);
                         Boats.Add(row);
                     }
@@ -83,6 +86,8 @@ namespace HarbourAdmin
                             NumberOfHorsepower = int.Parse(boats[4]),
                             DaysDocked = int.Parse(boats[5])
                         };
+                        power.Docked = true;
+
                         Array.Fill(Docks, power, Counter, power.Slots);
                         Boats.Add(power);
                     }
@@ -96,6 +101,8 @@ namespace HarbourAdmin
                             Beds = int.Parse(boats[4]),
                             DaysDocked = int.Parse(boats[5])
                         };
+                        catamaran.Docked = true;
+
                         Array.Fill(Docks, catamaran, Counter, catamaran.Slots);
                         Boats.Add(catamaran);
                     }
@@ -109,6 +116,8 @@ namespace HarbourAdmin
                             CargoContainers = int.Parse(boats[4]),
                             DaysDocked = int.Parse(boats[5])
                         };
+                        cargo.Docked = true;
+
                         Array.Fill(Docks, cargo, Counter, cargo.Slots);
                         Boats.Add(cargo);
                     }
@@ -124,7 +133,7 @@ namespace HarbourAdmin
         {
             File.WriteAllText(DataPath, string.Empty);
             using StreamWriter sw = new StreamWriter(DataPath, true);
-            sw.WriteLine($"{Day} - {RejectedBoats} - {AddedBoats} - ");
+            sw.WriteLine($"{Day}-{RejectedBoats}-{AddedBoats}-");
             foreach (var s in Docks)
             {
                 if (s==null)
@@ -145,6 +154,7 @@ namespace HarbourAdmin
             Console.WriteLine("Press any key to simulate a day or press 'q' to exit! ");
             ConsoleKeyInfo input;
             input = Console.ReadKey(true);
+            File.WriteAllText(DataPath, string.Empty);
             while (input.Key!=ConsoleKey.Q)
             {
                 RemoveBoat();
@@ -199,10 +209,49 @@ namespace HarbourAdmin
         public void DisplayInfo()
         {
             Console.WriteLine("Additional dock info: ");
+            Console.WriteLine();
 
+            int row = Boats
+                .OfType<RowingBoat>()
+                .Count();
+            int pow = Boats
+                .OfType<PowerBoat>()
+                .Count();
+            int sail = Boats
+                .OfType<SailBoat>()
+                .Count();
+            int cata = Boats
+                .OfType<Catamaran>()
+                .Count();
+            int carg = Boats
+                .OfType<CargoShip>()
+                .Count();
 
+            var weight = Boats
+                .GroupBy(b => b.Weight)
+                .Sum(b => b.Key);
+
+            var speed = Boats
+                .GroupBy(b => b.MaxSpeed)
+                .Sum(b => b.Key);
+
+            var emptySlot = Docks
+                .Count(b => b == null);
+
+            int speedInKMH = speed / Boats.Count();
+            Console.WriteLine("Number of boats: ");
+            Console.WriteLine($"Rowingboat: {row}");
+            Console.WriteLine($"Powerboat: {pow}");
+            Console.WriteLine($"Sailboat: {sail}");
+            Console.WriteLine($"Catamaran: {cata}");
+            Console.WriteLine($"Cargoship: {carg}");
+            Console.WriteLine($"Total weight in dock: {weight} kg");
+            Console.WriteLine($"Average maximum speed in dock: {(speedInKMH * 1.85200)} km/h");
+            Console.WriteLine($"Empty slots in dock: {emptySlot/2}");
             Console.WriteLine($"Number of total boats added: {AddedBoats}");
             Console.WriteLine($"Number of total boats rejected: {RejectedBoats}");
+
+            
         }
         public void NewDay()
         {
