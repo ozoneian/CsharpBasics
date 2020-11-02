@@ -28,7 +28,15 @@ namespace HarbourAdmin
         }
         public void ReadDockData()
         {
-            Data = File.ReadAllText(DataPath);
+            if (File.Exists(DataPath))
+            {
+                Data = File.ReadAllText(DataPath);
+
+            }
+            else
+            {
+                File.Create(DataPath);
+            }
 
             if (Data == "") 
             {
@@ -247,7 +255,7 @@ namespace HarbourAdmin
                 .Count(b => b == null);
 
             int speedInKMH = speed / Boats.Count();
-            Console.WriteLine("Number of boats: ");
+            Console.WriteLine("Number of docked boats: ");
             Console.WriteLine($"Rowingboat: {row}");
             Console.WriteLine($"Powerboat: {pow}");
             Console.WriteLine($"Sailboat: {sail}");
