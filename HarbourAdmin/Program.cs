@@ -166,10 +166,10 @@ namespace HarbourAdmin
             Console.WriteLine("Press any key to simulate a day, press 'c' to clear harbour or press 'q' to exit! ");
             ConsoleKeyInfo input;
             input = Console.ReadKey(true);
-            if (input.Key!=ConsoleKey.C)
+            if (input.Key==ConsoleKey.C)
             {
                 File.WriteAllText(DataPath, string.Empty);
-
+                //"clear" array + list
             }
             while (input.Key!=ConsoleKey.Q)
             {

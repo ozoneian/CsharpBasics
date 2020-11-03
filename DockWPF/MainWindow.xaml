@@ -23,5 +23,6 @@
         </Grid.RowDefinitions>
         <Rectangle x:Name="Boat" Grid.Column="2" HorizontalAlignment="Left" Height="15" Margin="93,92,0,0" Grid.Row="2" Stroke="Black" VerticalAlignment="Top" Width="21"/>
         <Button x:Name="NewDayButton" Content="Press for a new day" Grid.Column="2" HorizontalAlignment="Center" Height="38" Margin="0,65,0,0" Grid.Row="3" VerticalAlignment="Top" Width="114" Click="NewDayButton_Click"/>
+        <StackPanel x:Name="stpShowRectangles" Grid.Column="3" HorizontalAlignment="Left" Height="356" Margin="45,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="179" Grid.RowSpan="3"/>
     </Grid>
 </Window>
