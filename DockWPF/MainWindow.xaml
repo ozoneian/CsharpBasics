@@ -21,8 +21,8 @@
             <RowDefinition></RowDefinition>
             <RowDefinition Height="20"></RowDefinition>
         </Grid.RowDefinitions>
-        <Rectangle x:Name="Boat" Grid.Column="2" HorizontalAlignment="Left" Height="15" Margin="93,92,0,0" Grid.Row="2" Stroke="Black" VerticalAlignment="Top" Width="21"/>
-        <Button x:Name="NewDayButton" Content="Press for a new day" Grid.Column="2" HorizontalAlignment="Center" Height="38" Margin="0,65,0,0" Grid.Row="3" VerticalAlignment="Top" Width="114" Click="NewDayButton_Click"/>
-        <StackPanel x:Name="stpShowRectangles" Grid.Column="3" HorizontalAlignment="Left" Height="356" Margin="45,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="179" Grid.RowSpan="3"/>
+        <Button x:Name="NewDayButton" Content="Press for a new day" Grid.Column="3" HorizontalAlignment="Center" Height="38" Margin="0,41,0,0" Grid.Row="3" VerticalAlignment="Top" Width="114" Click="NewDayButton_Click"/>
+        <StackPanel Background="Aqua" x:Name="stpDockOne" Grid.Column="1" HorizontalAlignment="Left" Height="112" Margin="10,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="487" Orientation="Horizontal" Grid.ColumnSpan="2"/>
+        <StackPanel Background="Aqua" x:Name="stpDockTwo" Grid.Column="1" HorizontalAlignment="Left" Height="112" Margin="10,0,0,0" Grid.Row="3" VerticalAlignment="Center" Width="487" Orientation="Horizontal" Grid.ColumnSpan="2"/>
     </Grid>
 </Window>

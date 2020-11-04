@@ -23,48 +23,131 @@ namespace DockWPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        Harbour h = new Harbour();
+
         public MainWindow()
         {
             InitializeComponent();
-            Harbour h = new Harbour();
-            h.RunHarbour();
-
            
 
-            Boat[] dockedBoats = new Boat[32*2];
-            Boat[] dockedTwoBoats = new Boat[32*2];
+            h.ReadDockData();
+            h.GenerateBoat(10);
+            DisplayDock();
 
-            SailBoat s = new SailBoat();
-            Array.Fill(dockedBoats, s, 4, s.Slots);
-
-            for (int i = 0; i < dockedBoats.Length; i++)
-            {
-                if (dockedBoats[i]==null)
-                {
-                    Rectangle rectangle = new Rectangle();
-                    rectangle.Width = 5;
-                    rectangle.Height = 5;
-                    rectangle.Stroke = new SolidColorBrush(Colors.Black);
-                    rectangle.Fill = new SolidColorBrush(Colors.Red);
-                    stpShowRectangles.Children.Add(rectangle);
-                }
-                else if (dockedBoats[i]==s)
-                {
-                    Rectangle rectangle = new Rectangle();
-                    rectangle.Width = 5;
-                    rectangle.Height = 5;
-                    rectangle.Stroke = new SolidColorBrush(Colors.Black);
-                    rectangle.Fill = new SolidColorBrush(Colors.Yellow);
-                    stpShowRectangles.Children.Add(rectangle);
-                }
-                
-            }
+            h.WriteDockData();
 
         }
 
         private void NewDayButton_Click(object sender, RoutedEventArgs e)
         {
             
+        }
+        private void DisplayDock()
+        {
+            for (int i = 0; i < h.DockOne.Length; i++)
+            {
+                if (h.DockOne[i] == null)
+                {
+                    Rectangle rectangle = new Rectangle();
+                    rectangle.Width = 5;
+                    rectangle.Height = 10;
+                    rectangle.Fill = new SolidColorBrush(Colors.White);
+                    stpDockOne.Children.Add(rectangle);
+                }
+                else if (h.DockOne[i].GetType().Name == "SailBoat")
+                {
+                    Rectangle rectangle = new Rectangle();
+                    rectangle.Width = 5;
+                    rectangle.Height = 10;
+                    rectangle.Fill = new SolidColorBrush(Colors.Yellow);
+                    stpDockOne.Children.Add(rectangle);
+                }
+                else if (h.DockOne[i].GetType().Name == "RowingBoat")
+                {
+                    Rectangle rectangle = new Rectangle();
+                    rectangle.Width = 5;
+                    rectangle.Height = 10;
+                    rectangle.Fill = new SolidColorBrush(Colors.Blue);
+                    stpDockOne.Children.Add(rectangle);
+                }
+                else if (h.DockOne[i].GetType().Name == "PowerBoat")
+                {
+                    Rectangle rectangle = new Rectangle();
+                    rectangle.Width = 5;
+                    rectangle.Height = 10;
+                    rectangle.Fill = new SolidColorBrush(Colors.Green);
+                    stpDockOne.Children.Add(rectangle);
+                }
+                else if (h.DockOne[i].GetType().Name == "Catamaran")
+                {
+                    Rectangle rectangle = new Rectangle();
+                    rectangle.Width = 5;
+                    rectangle.Height = 10;
+                    rectangle.Fill = new SolidColorBrush(Colors.Purple);
+                    stpDockOne.Children.Add(rectangle);
+                }
+                else if (h.DockOne[i].GetType().Name == "CargoShip")
+                {
+                    Rectangle rectangle = new Rectangle();
+                    rectangle.Width = 5;
+                    rectangle.Height = 10;
+                    rectangle.Fill = new SolidColorBrush(Colors.Red);
+                    stpDockOne.Children.Add(rectangle);
+                }
+
+            }
+            for (int i = 0; i < h.DockTwo.Length; i++)
+            {
+                if (h.DockTwo[i] == null)
+                {
+                    Rectangle rectangle = new Rectangle();
+                    rectangle.Width = 5;
+                    rectangle.Height = 10;
+                    rectangle.Fill = new SolidColorBrush(Colors.White);
+                    stpDockTwo.Children.Add(rectangle);
+                }
+                else if (h.DockTwo[i].GetType().Name == "SailBoat")
+                {
+                    Rectangle rectangle = new Rectangle();
+                    rectangle.Width = 5;
+                    rectangle.Height = 10;
+                    rectangle.Fill = new SolidColorBrush(Colors.Yellow);
+                    stpDockTwo.Children.Add(rectangle);
+                }
+                else if (h.DockTwo[i].GetType().Name == "RowingBoat")
+                {
+                    Rectangle rectangle = new Rectangle();
+                    rectangle.Width = 5;
+                    rectangle.Height = 10;
+                    rectangle.Fill = new SolidColorBrush(Colors.Blue);
+                    stpDockTwo.Children.Add(rectangle);
+                }
+                else if (h.DockTwo[i].GetType().Name == "PowerBoat")
+                {
+                    Rectangle rectangle = new Rectangle();
+                    rectangle.Width = 5;
+                    rectangle.Height = 10;
+                    rectangle.Fill = new SolidColorBrush(Colors.Green);
+                    stpDockTwo.Children.Add(rectangle);
+                }
+                else if (h.DockTwo[i].GetType().Name == "Catamaran")
+                {
+                    Rectangle rectangle = new Rectangle();
+                    rectangle.Width = 5;
+                    rectangle.Height = 10;
+                    rectangle.Fill = new SolidColorBrush(Colors.Purple);
+                    stpDockTwo.Children.Add(rectangle);
+                }
+                else if (h.DockTwo[i].GetType().Name == "CargoShip")
+                {
+                    Rectangle rectangle = new Rectangle();
+                    rectangle.Width = 5;
+                    rectangle.Height = 10;
+                    rectangle.Fill = new SolidColorBrush(Colors.Red);
+                    stpDockTwo.Children.Add(rectangle);
+                }
+
+            }
         }
     }
 }
