@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Media;
 
 namespace DockWPF
 {
@@ -10,6 +11,8 @@ namespace DockWPF
 
         public int NumberOfHorsepower { get; set; }
         public override int Slots { get; set; } = 1 * 2;
+        public override SolidColorBrush BoatColor { get; set; } = new SolidColorBrush(Colors.Green);
+
 
         private int currentDay;
 

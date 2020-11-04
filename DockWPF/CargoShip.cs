@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Media;
 
 namespace DockWPF
 {
     class CargoShip : Boat
     {
         static Random Rand { get; set; } = new Random();
+        public override SolidColorBrush BoatColor { get; set; } = new SolidColorBrush(Colors.Red);
 
         public int CargoContainers { get; set; }
         public override int Slots { get; set; } = 4 * 2;

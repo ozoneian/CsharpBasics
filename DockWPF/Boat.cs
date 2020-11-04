@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Media;
 
 namespace DockWPF
 {
@@ -12,8 +13,8 @@ namespace DockWPF
         public int Weight { get; set; } //kg
         public int MaxSpeed { get; set; } //knot
         public string ID { get; set; } = GetRandomID();
-
-        static string GetRandomID()
+        public virtual SolidColorBrush BoatColor { get; set; } = new SolidColorBrush(Colors.Black);
+    static string GetRandomID()
         {
             char[] Alphabet = new char[]
             {

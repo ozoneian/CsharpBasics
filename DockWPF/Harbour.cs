@@ -160,20 +160,7 @@ namespace DockWPF
             //        public void NewDay()
             //        {
             //        }
-            //        public void RemoveBoat()
-            //        {
-            //            int[] result = Docks
-            //                      .Select((b, i) => b != null && b.Docked == false ? i : -1)
-            //                      .Where(i => i != -1)
-            //                      .ToArray();
-
-            //            foreach (var item in result)
-            //            {
-            //                Docks.SetValue(null, item);
-            //            }
-            //            Boats
-            //                .RemoveAll(b => b != null && b.Docked == false);
-            //        }
+            
 
 
 
@@ -187,20 +174,34 @@ namespace DockWPF
             Counter = 0;
             Day++;
 
-            foreach (var boat in DockOne)
+            foreach (var boat in Boats)
             {
-                if (boat != null)
-                {
-                    boat.AddDay();
-                }
+                boat.AddDay();
             }
-            foreach (var boat in DockTwo)
+        }
+        public void RemoveBoat()
+        {
+            int[] resultDockOne = DockOne
+                      .Select((b, i) => b != null && b.Docked == false ? i : -1)
+                      .Where(i => i != -1)
+                      .ToArray();
+            int[] resultDockTwo = DockTwo
+                      .Select((b, i) => b != null && b.Docked == false ? i : -1)
+                      .Where(i => i != -1)
+                      .ToArray();
+
+            foreach (var item in resultDockOne)
             {
-                if (boat != null)
-                {
-                    boat.AddDay();
-                }
+                DockOne.SetValue(null, item);
             }
+            foreach (var item in resultDockTwo)
+            {
+                DockTwo.SetValue(null, item);
+
+            }
+
+            Boats
+                .RemoveAll(b => b != null && b.Docked == false);
         }
         public void ReadDockData()
         {
@@ -441,14 +442,14 @@ namespace DockWPF
                         SailBoat s = new SailBoat();
 
 
-                        for (int i = 0; i < DockOne.Length; i += 2)
+                        for (int i = 0; i < DockTwo.Length; i += 2)
                         {
-                            if (DockOne[i] == null)
+                            if (DockTwo[i] == null)
                             {
                                 avaliableSpace += 2;
                                 if (avaliableSpace > s.Slots)
                                 {
-                                    Array.Fill(DockOne, s, i - s.Slots, s.Slots);
+                                    Array.Fill(DockTwo, s, i - s.Slots, s.Slots);
                                     Boats.Add(s);
                                     s.Docked = true;
 
@@ -463,7 +464,7 @@ namespace DockWPF
                         avaliableSpace = 0;
                         if (s.Docked==false)
                         {
-                            for (int i = 0; i < DockTwo.Length; i += 2)
+                            for (int i = 0; i < DockOne.Length; i += 2)
                             {
                                 if (DockOne[i] == null)
                                 {
@@ -641,7 +642,7 @@ namespace DockWPF
                                 avaliableSpace += 2;
                                 if (avaliableSpace > c.Slots)
                                 {
-                                    Array.Fill(DockTwo, c, i, c.Slots);
+                                    Array.Fill(DockTwo, c, i +1, c.Slots);
                                     Boats.Add(c);
                                     c.Docked = true;
 
@@ -663,7 +664,7 @@ namespace DockWPF
                                     avaliableSpace += 2;
                                     if (avaliableSpace > c.Slots)
                                     {
-                                        Array.Fill(DockOne, c, i, c.Slots);
+                                        Array.Fill(DockOne, c, i + 1, c.Slots);
                                         Boats.Add(c);
                                         c.Docked = true;
 

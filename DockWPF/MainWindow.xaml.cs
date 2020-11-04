@@ -27,127 +27,50 @@ namespace DockWPF
 
         public MainWindow()
         {
+            h.ReadDockData();
+
             InitializeComponent();
            
 
-            h.ReadDockData();
-            h.GenerateBoat(10);
-            DisplayDock();
 
-            h.WriteDockData();
 
         }
 
         private void NewDayButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            h.RemoveBoat();
+            h.GenerateBoat(10);
+            DisplayDock();
+            h.UpdateHarbour();
         }
+     
         private void DisplayDock()
         {
-            for (int i = 0; i < h.DockOne.Length; i++)
-            {
-                if (h.DockOne[i] == null)
-                {
-                    Rectangle rectangle = new Rectangle();
-                    rectangle.Width = 5;
-                    rectangle.Height = 10;
-                    rectangle.Fill = new SolidColorBrush(Colors.White);
-                    stpDockOne.Children.Add(rectangle);
-                }
-                else if (h.DockOne[i].GetType().Name == "SailBoat")
-                {
-                    Rectangle rectangle = new Rectangle();
-                    rectangle.Width = 5;
-                    rectangle.Height = 10;
-                    rectangle.Fill = new SolidColorBrush(Colors.Yellow);
-                    stpDockOne.Children.Add(rectangle);
-                }
-                else if (h.DockOne[i].GetType().Name == "RowingBoat")
-                {
-                    Rectangle rectangle = new Rectangle();
-                    rectangle.Width = 5;
-                    rectangle.Height = 10;
-                    rectangle.Fill = new SolidColorBrush(Colors.Blue);
-                    stpDockOne.Children.Add(rectangle);
-                }
-                else if (h.DockOne[i].GetType().Name == "PowerBoat")
-                {
-                    Rectangle rectangle = new Rectangle();
-                    rectangle.Width = 5;
-                    rectangle.Height = 10;
-                    rectangle.Fill = new SolidColorBrush(Colors.Green);
-                    stpDockOne.Children.Add(rectangle);
-                }
-                else if (h.DockOne[i].GetType().Name == "Catamaran")
-                {
-                    Rectangle rectangle = new Rectangle();
-                    rectangle.Width = 5;
-                    rectangle.Height = 10;
-                    rectangle.Fill = new SolidColorBrush(Colors.Purple);
-                    stpDockOne.Children.Add(rectangle);
-                }
-                else if (h.DockOne[i].GetType().Name == "CargoShip")
-                {
-                    Rectangle rectangle = new Rectangle();
-                    rectangle.Width = 5;
-                    rectangle.Height = 10;
-                    rectangle.Fill = new SolidColorBrush(Colors.Red);
-                    stpDockOne.Children.Add(rectangle);
-                }
+            stpDockOne.Children.Clear();
+            stpDockTwo.Children.Clear();
 
-            }
-            for (int i = 0; i < h.DockTwo.Length; i++)
+            foreach (var item in h.DockOne)
             {
-                if (h.DockTwo[i] == null)
-                {
-                    Rectangle rectangle = new Rectangle();
-                    rectangle.Width = 5;
-                    rectangle.Height = 10;
-                    rectangle.Fill = new SolidColorBrush(Colors.White);
-                    stpDockTwo.Children.Add(rectangle);
-                }
-                else if (h.DockTwo[i].GetType().Name == "SailBoat")
-                {
-                    Rectangle rectangle = new Rectangle();
-                    rectangle.Width = 5;
-                    rectangle.Height = 10;
-                    rectangle.Fill = new SolidColorBrush(Colors.Yellow);
-                    stpDockTwo.Children.Add(rectangle);
-                }
-                else if (h.DockTwo[i].GetType().Name == "RowingBoat")
-                {
-                    Rectangle rectangle = new Rectangle();
-                    rectangle.Width = 5;
-                    rectangle.Height = 10;
-                    rectangle.Fill = new SolidColorBrush(Colors.Blue);
-                    stpDockTwo.Children.Add(rectangle);
-                }
-                else if (h.DockTwo[i].GetType().Name == "PowerBoat")
-                {
-                    Rectangle rectangle = new Rectangle();
-                    rectangle.Width = 5;
-                    rectangle.Height = 10;
-                    rectangle.Fill = new SolidColorBrush(Colors.Green);
-                    stpDockTwo.Children.Add(rectangle);
-                }
-                else if (h.DockTwo[i].GetType().Name == "Catamaran")
-                {
-                    Rectangle rectangle = new Rectangle();
-                    rectangle.Width = 5;
-                    rectangle.Height = 10;
-                    rectangle.Fill = new SolidColorBrush(Colors.Purple);
-                    stpDockTwo.Children.Add(rectangle);
-                }
-                else if (h.DockTwo[i].GetType().Name == "CargoShip")
-                {
-                    Rectangle rectangle = new Rectangle();
-                    rectangle.Width = 5;
-                    rectangle.Height = 10;
-                    rectangle.Fill = new SolidColorBrush(Colors.Red);
-                    stpDockTwo.Children.Add(rectangle);
-                }
+                Rectangle rectangle = new Rectangle();
+                rectangle.Width = 5;
+                rectangle.Height = 10;
+                _ = (item is null) ? (rectangle.Fill = new SolidColorBrush(Colors.White)) : (rectangle.Fill = item.BoatColor);
 
+                stpDockOne.Children.Add(rectangle);
             }
+            foreach (var item in h.DockTwo)
+            {
+                Rectangle rectangle = new Rectangle();
+                rectangle.Width = 5;
+                rectangle.Height = 10;
+                _ = (item is null) ? (rectangle.Fill = new SolidColorBrush(Colors.White)) : (rectangle.Fill = item.BoatColor);
+                stpDockTwo.Children.Add(rectangle);
+            }
+        }
+
+        private void btnExit_Click(object sender, RoutedEventArgs e)
+        {
+            h.WriteDockData();
         }
     }
 }

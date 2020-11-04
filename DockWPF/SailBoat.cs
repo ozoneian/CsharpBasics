@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Media;
 
 namespace DockWPF
 {
@@ -9,6 +10,8 @@ namespace DockWPF
         static Random Rand { get; set; } = new Random();
         public int LengthInFeet { get; set; }
         public override int Slots { get; set; } = 2 * 2;
+        public override SolidColorBrush BoatColor { get; set; } = new SolidColorBrush(Colors.Yellow);
+
 
         private int currentDay;
 
