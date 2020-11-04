@@ -17,123 +17,6 @@ namespace DockWPF
         public int RejectedBoats { get; set; }
         public int AddedBoats { get; set; }
         public const string DataPath = "BoatsInHarbour.txt";
-
-        public void RunHarbour()
-        {
-           
-
-            //using System;
-            //using System.Collections.Generic;
-            //using System.IO;
-            //using System.Linq;
-            //using System.Runtime.CompilerServices;
-            //using System.Security.Cryptography;
-            //using System.Security.Cryptography.X509Certificates;
-
-            //namespace HarbourAdmin
-            //{
-            //    partial class Program
-            //    {
-            //        static Random Rand { get; set; } = new Random();
-
-            //        public int Counter { get; set; } = 0;
-            //        public int Day { get; set; } = 1;
-            //        public Boat[] Docks { get; set; } = new Boat[64 * 2];
-
-            //        static void Main(string[] args)
-            //        {
-            //            Program p = new Program();
-            //            p.Run();
-            //        }
-
-            //        }
-            //       
-            //        public void Run()
-            //        {
-            //            ReadDockData();
-            //            Console.WriteLine("Press any key to simulate a day, press 'c' to clear harbour or press 'q' to exit! ");
-            //            ConsoleKeyInfo input;
-            //            input = Console.ReadKey(true);
-            //            if (input.Key != ConsoleKey.C)
-            //            {
-            //                File.WriteAllText(DataPath, string.Empty);
-
-            //            }
-            //            while (input.Key != ConsoleKey.Q)
-            //            {
-            //                RemoveBoat();
-            //                GenerateBoat(10);
-            //                DisplayDock();
-            //                DisplayInfo();
-            //                input = Console.ReadKey(true);
-            //                NewDay();
-            //                Console.Clear();
-            //            }
-            //            WriteDockData();
-            //            Console.WriteLine("exiting");
-            //            Console.ReadKey(true);
-            //        }
-
-           
-
-            //        public void DisplayInfo()
-            //        {
-            //            Console.WriteLine("Additional dock info: ");
-            //            Console.WriteLine();
-
-            //            int row = Boats
-            //                .OfType<RowingBoat>()
-            //                .Count();
-            //            int pow = Boats
-            //                .OfType<PowerBoat>()
-            //                .Count();
-            //            int sail = Boats
-            //                .OfType<SailBoat>()
-            //                .Count();
-            //            int cata = Boats
-            //                .OfType<Catamaran>()
-            //                .Count();
-            //            int carg = Boats
-            //                .OfType<CargoShip>()
-            //                .Count();
-
-            //            var weight = Boats
-            //                .GroupBy(b => b.Weight)
-            //                .Sum(b => b.Key);
-
-            //            var speed = Boats
-            //                .GroupBy(b => b.MaxSpeed)
-            //                .Sum(b => b.Key);
-
-            //            var emptySlot = Docks
-            //                .Count(b => b == null);
-
-            //            int speedInKMH = speed / Boats.Count();
-            //            Console.WriteLine("Number of boats: ");
-            //            Console.WriteLine($"Rowingboat: {row}");
-            //            Console.WriteLine($"Powerboat: {pow}");
-            //            Console.WriteLine($"Sailboat: {sail}");
-            //            Console.WriteLine($"Catamaran: {cata}");
-            //            Console.WriteLine($"Cargoship: {carg}");
-            //            Console.WriteLine($"Total weight in dock: {weight} kg");
-            //            Console.WriteLine($"Average maximum speed in dock: {(speedInKMH * 1.85200)} km/h");
-            //            Console.WriteLine($"Empty slots in dock: {emptySlot / 2}");
-            //            Console.WriteLine($"Number of total boats added: {AddedBoats}");
-            //            Console.WriteLine($"Number of total boats rejected: {RejectedBoats}");
-
-
-            //        }
-            //        public void NewDay()
-            //        {
-            //        }
-            
-
-
-
-
-            //    }
-            //}
-        }
         public List<InfoString> BoatsInfo(Boat[] boats)
         {
             Counter = 0;
@@ -198,6 +81,57 @@ namespace DockWPF
                 boat.AddDay();
             }
         }
+        public void DisplayHarbourInfo()
+        {
+            Console.WriteLine("Additional dock info: ");
+            Console.WriteLine();
+
+            int row = Boats
+                .OfType<RowingBoat>()
+                .Count();
+            int pow = Boats
+                .OfType<PowerBoat>()
+                .Count();
+            int sail = Boats
+                .OfType<SailBoat>()
+                .Count();
+            int cata = Boats
+                .OfType<Catamaran>()
+                .Count();
+            int carg = Boats
+                .OfType<CargoShip>()
+                .Count();
+
+            var weight = Boats
+                .GroupBy(b => b.Weight)
+                .Sum(b => b.Key);
+
+            var speed = Boats
+                .GroupBy(b => b.MaxSpeed)
+                .Sum(b => b.Key);
+
+            var emptySlot = DockOne
+                .Count(b => b == null);
+            var emptySlot2 = DockTwo
+               .Count(b => b == null);
+
+            int speedInKMH = speed / Boats.Count();
+            Console.WriteLine("Number of boats: ");
+            Console.WriteLine($"Rowingboat: {row}");
+            Console.WriteLine($"Powerboat: {pow}");
+            Console.WriteLine($"Sailboat: {sail}");
+            Console.WriteLine($"Catamaran: {cata}");
+            Console.WriteLine($"Cargoship: {carg}");
+            Console.WriteLine($"Total weight in dock: {weight} kg");
+            Console.WriteLine($"Average maximum speed in dock: {(speedInKMH * 1.85200)} km/h");
+            Console.WriteLine($"Empty slots in dock 1: {emptySlot / 2}");
+            Console.WriteLine($"Empty slots in dock 2: {emptySlot2 / 2}");
+            Console.WriteLine($"Number of total boats added: {AddedBoats}");
+            Console.WriteLine($"Number of total boats rejected: {RejectedBoats}");
+
+
+        } //input into graphical thingy
+
         public void RemoveBoat()
         {
             int[] resultDockOne = DockOne

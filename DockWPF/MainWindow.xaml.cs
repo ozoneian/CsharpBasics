@@ -43,8 +43,8 @@ namespace DockWPF
             h.RemoveBoat();
             h.GenerateBoat(10);
             DisplayDock();
-            dgrDockOne.ItemsSource = h.BoatsInfo(h.DockOne);
-            dgrDockTwo.ItemsSource = h.BoatsInfo(h.DockTwo);
+            DockOneInfo();
+            DockTwoInfo();
         }
      
         private void DisplayDock()
@@ -72,10 +72,12 @@ namespace DockWPF
         }
         private void DockOneInfo()
         {
+            dgrDockOne.ItemsSource = h.BoatsInfo(h.DockOne);
 
         }
         private void DockTwoInfo()
         {
+            dgrDockTwo.ItemsSource = h.BoatsInfo(h.DockTwo);
 
         }
 
