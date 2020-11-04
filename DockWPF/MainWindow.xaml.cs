@@ -30,6 +30,7 @@ namespace DockWPF
             h.ReadDockData();
 
             InitializeComponent();
+
            
 
 
@@ -38,10 +39,12 @@ namespace DockWPF
 
         private void NewDayButton_Click(object sender, RoutedEventArgs e)
         {
+            h.UpdateHarbour();
             h.RemoveBoat();
             h.GenerateBoat(10);
             DisplayDock();
-            h.UpdateHarbour();
+            dgrDockOne.ItemsSource = h.BoatsInfo(h.DockOne);
+            dgrDockTwo.ItemsSource = h.BoatsInfo(h.DockTwo);
         }
      
         private void DisplayDock()
@@ -67,6 +70,15 @@ namespace DockWPF
                 stpDockTwo.Children.Add(rectangle);
             }
         }
+        private void DockOneInfo()
+        {
+
+        }
+        private void DockTwoInfo()
+        {
+
+        }
+
 
         private void btnExit_Click(object sender, RoutedEventArgs e)
         {

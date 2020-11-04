@@ -74,41 +74,7 @@ namespace DockWPF
             //            Console.ReadKey(true);
             //        }
 
-            //        private void DisplayDock()
-            //        {
-            //            Console.WriteLine("DAY: " + Day);
-            //            int empty = 0;
-            //            Console.WriteLine("Plats   Båttyp   ID-Nr   Vikt   Maxhastighet   Övrigt");
-            //            foreach (var boat in Docks)
-            //            {
-            //                if (boat == null)
-            //                {
-            //                    empty++;
-
-            //                }
-            //                else
-            //                {
-            //                    if (empty > 0)
-            //                    {
-            //                        Console.WriteLine($"{(Counter - empty) / 2}-{Counter / 2}: empty"); //fullösning
-            //                        empty = 0;
-            //                    }
-            //                    if (boat != Docks[Counter > 0 ? Counter - 1 : Counter] || boat == Docks[0] && Counter == 0)
-            //                    {
-
-            //                        string info = boat.DisplayBoatInfo();
-            //                        Console.WriteLine($"{(Counter) / 2}-{(Counter + boat.Slots) / 2} {info}");
-
-            //                    }
-            //                }
-            //                Counter++;
-
-            //            }
-            //            if (empty > 0)
-            //            {
-            //                Console.WriteLine($"{(Counter - empty) / 2}-{Counter / 2}: empty"); //en till fullösning
-            //            }
-            //        }
+           
 
             //        public void DisplayInfo()
             //        {
@@ -167,6 +133,59 @@ namespace DockWPF
 
             //    }
             //}
+        }
+        public List<InfoString> BoatsInfo(Boat[] boats)
+        {
+            Counter = 0;
+            List<InfoString> boatInfo = new List<InfoString>();
+            int empty = 0;
+            foreach (var boat in boats)
+            {
+                InfoString infoString = new InfoString();
+                if (boat == null)
+                {
+                    empty++;
+
+                }
+                else
+                {
+                    if (empty > 0)
+                    {
+                        infoString.Location = $"{(Counter - empty) / 2}-{ Counter / 2}";
+                        infoString.BoatType = "Empty";
+                        boatInfo.Add(infoString);
+                        empty = 0;
+                    }
+                    if (boat != boats[Counter > 0 ? Counter - 1 : Counter] || boat == boats[0] && Counter == 0)
+                    {
+
+                        string info = boat.DisplayBoatInfo();
+                        var q = info.Split('_');
+                        infoString.Location = $"{(Counter) / 2}-{(Counter + boat.Slots) / 2}";
+                        infoString.BoatType = q[0];
+                        infoString.ID = q[1];
+                        infoString.Weight = int.Parse(q[2]);
+                        infoString.MaxSpeed = int.Parse(q[3]);
+                        infoString.Unique = q[4];
+                        boatInfo.Add(infoString);
+                        Console.WriteLine($"{(Counter) / 2}-{(Counter + boat.Slots) / 2} {info}");
+
+                    }
+                }
+                Counter++;
+
+            }
+            if (empty > 0)
+            {
+                InfoString infoString = new InfoString();
+
+                infoString.Location = $"{(Counter - empty) / 2}-{ Counter / 2}";
+                infoString.BoatType = "Empty";
+                boatInfo.Add(infoString);
+                empty = 0;
+            }
+
+            return boatInfo;
         }
         public void UpdateHarbour() //per/day
         {

@@ -44,7 +44,7 @@ namespace DockWPF
         }
         public override string DisplayBoatInfo()
         {
-            return $" {GetType().Name.ToLower()} - {ID} - {Weight} kg - {Math.Round(MaxSpeed * 1.85200)} km/h - Beds: {Beds}";
+            return $" {GetType().Name.ToLower()} _ {ID} _ {Weight} _ {Math.Round(MaxSpeed * 1.85200)} _ Beds: {Beds}";
 
 
         }
