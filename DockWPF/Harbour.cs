@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace DockWPF
             foreach (var boat in boats)
             {
                 InfoString infoString = new InfoString();
+                InfoString nullString = new InfoString();
                 if (boat == null)
                 {
                     empty++;
@@ -34,9 +36,9 @@ namespace DockWPF
                 {
                     if (empty > 0)
                     {
-                        infoString.Location = $"{(Counter - empty) / 2}-{ Counter / 2}";
-                        infoString.BoatType = "Empty";
-                        boatInfo.Add(infoString);
+                        nullString.Location = $"{(Counter - empty) / 2}-{ Counter / 2}";
+                        nullString.BoatType = "empty";
+                        boatInfo.Add(nullString);
                         empty = 0;
                     }
                     if (boat != boats[Counter > 0 ? Counter - 1 : Counter] || boat == boats[0] && Counter == 0)
@@ -60,12 +62,12 @@ namespace DockWPF
             }
             if (empty > 0)
             {
-                InfoString infoString = new InfoString();
+                InfoString nullString = new InfoString();
 
-                infoString.Location = $"{(Counter - empty) / 2}-{ Counter / 2}";
-                infoString.BoatType = "Empty";
-                boatInfo.Add(infoString);
-                empty = 0;
+                nullString.Location = $"{(Counter - empty) / 2}-{ Counter / 2}";
+                nullString.BoatType = "empty";
+                boatInfo.Add(nullString);
+               
             }
 
             return boatInfo;
@@ -81,57 +83,53 @@ namespace DockWPF
                 boat.AddDay();
             }
         }
-        public void DisplayHarbourInfo()
+        public int TotalWeight(List<Boat> boats) //I have access to the same list above, but I add the list as a parameter (practise).
         {
-            Console.WriteLine("Additional dock info: ");
-            Console.WriteLine();
-
-            int row = Boats
+            var weight = boats
+                .GroupBy(b => b.Weight)
+                .Sum(b => b.Key);
+            return weight;
+        }
+        public int TotalMaxSpeed(List<Boat> boats)
+        {
+            var speed = boats
+               .GroupBy(b => b.MaxSpeed)
+               .Sum(b => b.Key);
+            return speed/boats.Count;
+        }
+        public string TotalBoatTypes(List<Boat> boats)
+        {
+            string t = "Number of boats in harbour: \n";
+            int row = boats
                 .OfType<RowingBoat>()
                 .Count();
-            int pow = Boats
+            int pow = boats
                 .OfType<PowerBoat>()
                 .Count();
-            int sail = Boats
+            int sail = boats
                 .OfType<SailBoat>()
                 .Count();
-            int cata = Boats
+            int cata = boats
                 .OfType<Catamaran>()
                 .Count();
-            int carg = Boats
+            int carg = boats
                 .OfType<CargoShip>()
                 .Count();
 
-            var weight = Boats
-                .GroupBy(b => b.Weight)
-                .Sum(b => b.Key);
+            t += $"Rowingboat: {row}\n";
+            t += $"Powerboat: {pow}\n";
+            t += $"Sailboat: {sail}\n";
+            t += $"Catamaran: {cata}\n";
+            t += $"Cargoship: {carg}";
 
-            var speed = Boats
-                .GroupBy(b => b.MaxSpeed)
-                .Sum(b => b.Key);
-
-            var emptySlot = DockOne
+            return t;
+        }
+        public int EmptySlotsDock(Boat[] dock)
+        {
+            int emptySlot = dock
                 .Count(b => b == null);
-            var emptySlot2 = DockTwo
-               .Count(b => b == null);
-
-            int speedInKMH = speed / Boats.Count();
-            Console.WriteLine("Number of boats: ");
-            Console.WriteLine($"Rowingboat: {row}");
-            Console.WriteLine($"Powerboat: {pow}");
-            Console.WriteLine($"Sailboat: {sail}");
-            Console.WriteLine($"Catamaran: {cata}");
-            Console.WriteLine($"Cargoship: {carg}");
-            Console.WriteLine($"Total weight in dock: {weight} kg");
-            Console.WriteLine($"Average maximum speed in dock: {(speedInKMH * 1.85200)} km/h");
-            Console.WriteLine($"Empty slots in dock 1: {emptySlot / 2}");
-            Console.WriteLine($"Empty slots in dock 2: {emptySlot2 / 2}");
-            Console.WriteLine($"Number of total boats added: {AddedBoats}");
-            Console.WriteLine($"Number of total boats rejected: {RejectedBoats}");
-
-
-        } //input into graphical thingy
-
+            return emptySlot;
+        }
         public void RemoveBoat()
         {
             int[] resultDockOne = DockOne
@@ -350,8 +348,6 @@ namespace DockWPF
             }
             Counter = 0;
         }
-    
-        
         public void WriteDockData()
         {
             File.WriteAllText(DataPath, string.Empty);

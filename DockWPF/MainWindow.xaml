@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:DockWPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Grid Background ="CadetBlue" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"></ColumnDefinition>
             <ColumnDefinition Width="50"></ColumnDefinition>
@@ -17,16 +17,17 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="20"></RowDefinition>
         </Grid.RowDefinitions>
-        <Button x:Name="NewDayButton" Content="Press for a new day" Grid.Column="4" HorizontalAlignment="Center" Height="38" Margin="0,41,0,0" Grid.Row="3" VerticalAlignment="Top" Width="114" Click="NewDayButton_Click"/>
-        <StackPanel Background="Aqua" x:Name="stpDockOne" Grid.Column="2" HorizontalAlignment="Center" Height="40" Margin="0,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="487" Orientation="Horizontal" Grid.ColumnSpan="2" AutomationProperties.IsOffscreenBehavior="Default"/>
-        <StackPanel Background="Aqua" x:Name="stpDockTwo" Grid.Column="2" HorizontalAlignment="Center" Height="40" Margin="0,10,0,0" Grid.Row="2" VerticalAlignment="Top" Width="487" Orientation="Horizontal" Grid.ColumnSpan="2"/>
-        <Button x:Name="btnExit" Content="Exit" Grid.Column="4" HorizontalAlignment="Left" Height="42" Margin="69,66,0,0" Grid.Row="2" VerticalAlignment="Top" Width="138" Click="btnExit_Click"/>
-        <DataGrid x:Name="dgrDockOne" AutoGenerateColumns="False" Grid.ColumnSpan="2" Grid.Column="2" HorizontalAlignment="Center" Height="66" Margin="0,55,0,0" Grid.Row="1" VerticalAlignment="Top" Width="487">
+        <Button x:Name="NewDayButton" Content="Press for a new day" Grid.Column="4" HorizontalAlignment="Left" Padding="5" Margin="10" VerticalAlignment="Bottom"  Click="NewDayButton_Click" Grid.Row="1"/>
+        <StackPanel x:Name="stpDockOne" Grid.Column="2" HorizontalAlignment="Center"  Margin="0,10,0,0" Grid.Row="1" VerticalAlignment="Top"  Orientation="Horizontal" Grid.ColumnSpan="2" AutomationProperties.IsOffscreenBehavior="Default"/>
+        <StackPanel x:Name="stpDockTwo" Grid.Column="2" HorizontalAlignment="Center"  Margin="0,10,0,0" Grid.Row="3" VerticalAlignment="Top"  Orientation="Horizontal" Grid.ColumnSpan="2"/>
+        <Button x:Name="btnExit" Content="Save boat stock" Grid.Column="4" HorizontalAlignment="Right"  Margin=" 10" VerticalAlignment="Bottom" Padding="5" Click="btnExit_Click"  Grid.Row="1"/>
+        <DataGrid x:Name="dgrDockOne" AutoGenerateColumns="False" Grid.ColumnSpan="2" Grid.Column="2" HorizontalAlignment="Center"  Margin="0,55,0,0" Grid.Row="1" Grid.RowSpan="2" VerticalAlignment="Top" >
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Location}" Header="Location"/>
                 <DataGridTextColumn Binding="{Binding BoatType }" Header="Boat type"/>
@@ -36,7 +37,7 @@
                 <DataGridTextColumn Binding="{Binding Unique}"  Header="Other info"/>
             </DataGrid.Columns>
         </DataGrid>
-        <DataGrid x:Name="dgrDockTwo" AutoGenerateColumns="True" Grid.ColumnSpan="2" Grid.Column="2" HorizontalAlignment="Center" Height="66" Margin="0,56,0,0" Grid.Row="2" VerticalAlignment="Top" Width="487">
+        <DataGrid x:Name="dgrDockTwo" AutoGenerateColumns="False" Grid.ColumnSpan="2" Grid.Column="2" HorizontalAlignment="Center"  Margin="0,55,0,0" Grid.Row="3" Grid.RowSpan="2" VerticalAlignment="Top" >
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Location}" Header="Location"/>
                 <DataGridTextColumn Binding="{Binding BoatType }" Header="Boat type"/>
@@ -46,8 +47,23 @@
                 <DataGridTextColumn Binding="{Binding Unique}"  Header="Other info"/>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBlock FontWeight="ExtraBold" Grid.Column="1" HorizontalAlignment="Center" Height="111" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" Margin="0,20,0,0"><Run Language="sv-se" Text="D"/><LineBreak/><Run Language="sv-se" Text="O"/><LineBreak/><Run Language="sv-se" Text="C"/><LineBreak/><Run Language="sv-se" Text="K"/><LineBreak/><Run Language="sv-se"/><LineBreak/><Run Language="sv-se" Text="1"/></TextBlock>
-        <TextBlock FontWeight="ExtraBold" Grid.Column="1" HorizontalAlignment="Left" Height="111" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" Margin="13,21,0,0" Grid.RowSpan="2"><Run Text="D"/><LineBreak/><Run Text="O"/><LineBreak/><Run Text="C"/><LineBreak/><Run Text="K"/><LineBreak/><Run/><LineBreak/><Run Language="sv-se" Text="2"/></TextBlock>
-        <TextBlock FontWeight="ExtraBold" Grid.Column="2" HorizontalAlignment="Left" Height="20" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Top" Width="96" Grid.ColumnSpan="2" Margin="189,0,0,0"><Run Language="sv-se" Text="SUMMATION"/><LineBreak/><Run Language="sv-se"/><LineBreak/><Run/></TextBlock>
+        <TextBlock FontWeight="ExtraBold" Grid.Column="1" HorizontalAlignment="Left"  Grid.Row="1" Grid.RowSpan="2" TextWrapping="Wrap" VerticalAlignment="Top"  Margin="10"><Run Language="sv-se" Text="D"/><LineBreak/><Run Language="sv-se" Text="O"/><LineBreak/><Run Language="sv-se" Text="C"/><LineBreak/><Run Language="sv-se" Text="K"/><LineBreak/><Run Language="sv-se"/><LineBreak/><Run Language="sv-se" Text="1"/></TextBlock>
+        <TextBlock FontWeight="ExtraBold" Grid.Column="1" HorizontalAlignment="Left"  Grid.Row="3" Grid.RowSpan="2" TextWrapping="Wrap" VerticalAlignment="Top"  Margin="10"><Run Text="D"/><LineBreak/><Run Text="O"/><LineBreak/><Run Text="C"/><LineBreak/><Run Text="K"/><LineBreak/><Run/><LineBreak/><Run Language="sv-se" Text="2"/></TextBlock>
+        <TextBlock FontWeight="ExtraBold" Grid.Column="4" HorizontalAlignment="Center" Height="20" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="96" Margin="0,74,0,0"><Run Language="sv-se" Text="SUMMATION:"/><LineBreak/><Run Language="sv-se"/><LineBreak/><Run/></TextBlock>
+        <StackPanel x:Name="stpSum" Grid.Row="3" Grid.RowSpan="2" Grid.Column="4" Background="White" Margin="10,0,10,0"></StackPanel>
+        <TextBlock x:Name="txbDay" Foreground="DarkSlateGray" FontWeight="ExtraBold" FontSize="20" Grid.Column="4" HorizontalAlignment="Center"  Margin="10" Grid.Row="2"  TextWrapping="Wrap" VerticalAlignment="Top" />
+        <Rectangle Fill="Yellow" Grid.Column="4" HorizontalAlignment="Left" Height="10" Margin="5" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" Width="10"/>
+        <Rectangle Fill="Green" Grid.Column="4" HorizontalAlignment="Left" Height="10" Margin="106,24,0,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" Width="10"/>
+        <Rectangle Fill="White" Grid.Column="4" HorizontalAlignment="Left" Height="10" Margin="106,42,0,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" Width="10"/>
+        <Rectangle Fill="Pink" Grid.Column="4" HorizontalAlignment="Left" Height="10" Margin="106,5,0,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" Width="10"/>
+        <Rectangle Fill="Blue" Grid.Column="4" HorizontalAlignment="Left" Height="10" Margin="5,42,0,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" Width="10"/>
+        <Rectangle Fill="Red" Grid.Column="4" HorizontalAlignment="Left" Height="10" Margin="5,24,0,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" Width="10"/>
+        <TextBlock FontSize="8" FontWeight="Bold" Grid.Column="4" HorizontalAlignment="Left" Height="10" Margin="36,5,0,0" Grid.Row="1" Text="Sailboat" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock FontSize="8" FontWeight="Bold" Grid.Column="4" HorizontalAlignment="Left" Height="10" Margin="36,39,0,0" Grid.Row="1" Text="Rowingboat" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock FontSize="8" FontWeight="Bold" Grid.Column="4" HorizontalAlignment="Left" Height="10" Margin="36,21,0,0" Grid.Row="1" Text="Cargoship" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock FontSize="8" FontWeight="Bold" Grid.Column="4" HorizontalAlignment="Left" Height="10" Margin="139,21,0,0" Grid.Row="1" Text="Powerboat" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock FontSize="8" FontWeight="Bold" Grid.Column="4" HorizontalAlignment="Left" Height="10" Margin="139,39,0,0" Grid.Row="1" Text="Empty" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock FontSize="8" FontWeight="Bold" Grid.Column="4" HorizontalAlignment="Left" Height="10" Margin="139,5,0,0" Grid.Row="1" Text="Catamaran" TextWrapping="Wrap" VerticalAlignment="Top"/>
+
     </Grid>
 </Window>
