@@ -35,7 +35,7 @@ namespace DockWPF
         private void NewDayButton_Click(object sender, RoutedEventArgs e)
         {
             h.RemoveBoat();
-            h.GenerateBoat(10);
+            h.GenerateBoat(5);
             DisplayDock();
             FillDockOneInfo();
             FillDockTwoInfo();
@@ -81,10 +81,10 @@ namespace DockWPF
         }
 
 
-        private void btnExit_Click(object sender, RoutedEventArgs e)
+        private void BtnExit_Click(object sender, RoutedEventArgs e)
         {
             h.WriteDockData();
-        }
+        } //just "save" boat data
         private void SumStat()
         {
             stpSum.Children.Clear();

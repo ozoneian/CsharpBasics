@@ -9,9 +9,12 @@ namespace DockWPF
 {
     class Harbour
     {
+        
+        public static int DockSizeOne { get; set; } = 32; 
+        public static int DockSizeTwo { get; set; } = 32;
         public Random Rand { get; set; } = new Random();
-        public Boat[] DockOne { get; set; } = new Boat[32 * 2];
-        public Boat[] DockTwo { get; set; } = new Boat[32 * 2];
+        public Boat[] DockOne { get; set; } = new Boat[DockSizeOne * 2];
+        public Boat[] DockTwo { get; set; } = new Boat[DockSizeTwo * 2];
         public int Day { get; set; } = 1;
         public int Counter { get; set; } = 0;
         public List<Boat> Boats { get; set; } = new List<Boat>(); //beeneficial when I want to manipulate objects/display/sort.
@@ -160,7 +163,7 @@ namespace DockWPF
 
             if (data == "")
             {
-                Console.WriteLine("Harbour hasn't been opened yet...");
+                //empty harbour
             }
             else
             {
@@ -396,14 +399,16 @@ namespace DockWPF
                             if (DockTwo[i] == null)
                             {
                                 avaliableSpace += 2;
-                                if (avaliableSpace > s.Slots)
+
+                                if (avaliableSpace == s.Slots)
                                 {
-                                    Array.Fill(DockTwo, s, i - s.Slots, s.Slots);
+                                    Array.Fill(DockTwo, s, i+2 - s.Slots, s.Slots);
                                     Boats.Add(s);
                                     s.Docked = true;
 
                                     break;
                                 }
+
                             }
                             else
                             {
@@ -418,9 +423,9 @@ namespace DockWPF
                                 if (DockOne[i] == null)
                                 {
                                     avaliableSpace += 2;
-                                    if (avaliableSpace > s.Slots)
+                                    if (avaliableSpace == s.Slots)
                                     {
-                                        Array.Fill(DockOne, s, i - s.Slots, s.Slots);
+                                        Array.Fill(DockOne, s, i+2 - s.Slots, s.Slots);
                                         Boats.Add(s);
                                         s.Docked = true;
 
@@ -541,9 +546,9 @@ namespace DockWPF
                             if (DockOne[i] == null)
                             {
                                 avaliableSpace += 2;
-                                if (avaliableSpace > k.Slots)
+                                if (avaliableSpace == k.Slots)
                                 {
-                                    Array.Fill(DockOne, k, i - k.Slots, k.Slots);
+                                    Array.Fill(DockOne, k, i+2 - k.Slots, k.Slots);
                                     Boats.Add(k);
                                     k.Docked = true;
                                     break;
@@ -562,9 +567,9 @@ namespace DockWPF
                                 if (DockTwo[i] == null)
                                 {
                                     avaliableSpace += 2;
-                                    if (avaliableSpace > k.Slots)
+                                    if (avaliableSpace == k.Slots)
                                     {
-                                        Array.Fill(DockTwo, k, i - k.Slots, k.Slots);
+                                        Array.Fill(DockTwo, k, i+2 - k.Slots, k.Slots);
                                         Boats.Add(k);
                                         k.Docked = true;
                                         break;
@@ -589,9 +594,9 @@ namespace DockWPF
                             if (DockTwo[i] == null)
                             {
                                 avaliableSpace += 2;
-                                if (avaliableSpace > c.Slots)
+                                if (avaliableSpace == c.Slots)
                                 {
-                                    Array.Fill(DockTwo, c, i +1, c.Slots);
+                                    Array.Fill(DockTwo, c, i-2 +1, c.Slots);
                                     Boats.Add(c);
                                     c.Docked = true;
 
@@ -611,9 +616,9 @@ namespace DockWPF
                                 if (DockOne[i] == null)
                                 {
                                     avaliableSpace += 2;
-                                    if (avaliableSpace > c.Slots)
+                                    if (avaliableSpace == c.Slots)
                                     {
-                                        Array.Fill(DockOne, c, i + 1, c.Slots);
+                                        Array.Fill(DockOne, c, i-2 + 1, c.Slots);
                                         Boats.Add(c);
                                         c.Docked = true;
 
@@ -634,5 +639,6 @@ namespace DockWPF
 
             }
         }
+       
     }
 }

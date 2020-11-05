@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DockWPF
 {
-    class InfoString
+    class InfoString //couldn't figure out how to do it differently fast enough
     {
         public string Location { get; set; }
         public string BoatType { get; set; }
